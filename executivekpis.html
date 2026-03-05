@@ -76,7 +76,7 @@
                         </div>
                         <div id="safety-status-icon"></div>
                     </div>
-
+                    
                     <div class="mt-4 relative z-10">
                         <div class="flex items-baseline space-x-2">
                             <span id="safety-total-value" class="text-5xl font-bold tracking-tight">0</span>
@@ -190,6 +190,39 @@
 
             </div>
             
+            <!-- Presentation / PowerPoint Embed Section -->
+            <div class="bg-slate-800/40 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-slate-700/50">
+                <div class="flex justify-between items-center mb-6 border-b border-slate-700/50 pb-4">
+                    <h3 class="font-semibold text-white text-lg flex items-center">
+                        <i data-lucide="presentation" class="w-5 h-5 mr-2 text-purple-400"></i> สไลด์รายงานประจำเดือน
+                    </h3>
+                    <div class="flex items-center text-sm px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                        <i data-lucide="file-text" class="w-4 h-4 mr-1.5"></i>
+                        <span>PowerPoint</span>
+                    </div>
+                </div>
+                
+                <!-- Iframe Container (อัตราส่วน 16:9) -->
+                <div class="relative w-full overflow-hidden rounded-xl border border-slate-700/50 bg-slate-900/80 aspect-video shadow-inner">
+<iframe src="https://1drv.ms/p/c/f51eb0261f456982/IQR1YLVuXErzRqwnzbYEsbPgAZvyTQmLAR8V48YbBeZGobA?em=2&amp;wdAr=1.7777777777777777" width="476px" height="288px" frameborder="0" title="PowerPoint Viewer">นี่คืองานนำเสนอของ <a target="_blank" href="https://office.com">Microsoft Office</a> แบบฝังตัวที่ขับเคลื่อนโดย <a target="_blank" href="https://office.com/webapps">Office</a></iframe>
+                    <iframe 
+                        src="https://view.officeapps.live.com/op/embed.aspx?src=https://raw.githubusercontent.com/microsoft/fluentui/master/packages/react-components/react-migration-v8-v9/SamplePresentation.pptx" 
+                        width="100%" 
+                        height="100%" 
+                        frameborder="0" 
+                        class="absolute top-0 left-0 w-full h-full"
+                        title="PowerPoint Presentation"
+                        allowfullscreen="true"
+                        mozallowfullscreen="true"
+                        webkitallowfullscreen="true">
+                    </iframe>
+                </div>
+                <p class="text-xs text-slate-400 mt-4 flex items-center">
+                    <i data-lucide="info" class="w-4 h-4 mr-1.5 text-blue-400"></i>
+                    สามารถแสดงผลสไลด์ .pptx จากลิงก์ Git (Raw url) หรือใช้ลิงก์ Embed จากระบบอื่นได้
+                </p>
+            </div>
+
             <!-- Recommendation / Action items -->
             <div class="bg-red-950/30 backdrop-blur-md border border-red-500/30 border-l-4 border-l-red-500 p-5 rounded-r-xl shadow-lg relative overflow-hidden">
                 <div class="absolute -right-4 -bottom-4 opacity-5">
@@ -354,5 +387,3 @@
     หน้าถัดไป (Kaizen) ➜
 </body>
 </html>
-
-
