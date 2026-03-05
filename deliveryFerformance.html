@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard สรุปการส่งมอบสินค้า</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #0b1120; /* Deep Dark Blue */
+            color: #f8fafc;
+        }
+        
+        /* Custom scrollbar for dark mode */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .glass-panel-heavy {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Glowing Text Effects */
+        .glow-text-orange {
+            text-shadow: 0 0 15px rgba(249, 115, 22, 0.8);
+        }
+        .glow-border-orange {
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.25);
+        }
+    </style>
+</head>
+<body class="min-h-screen p-6 relative z-0">
+    <!-- Background Ambient Glow -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-600/10 blur-[120px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-orange-500/10 blur-[120px]"></div>
+    </div>
+
+    <!-- Header Section -->
+    <div class="max-w-7xl mx-auto mb-8 relative">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+            <div>
+                <h1 class="text-3xl font-bold text-white tracking-wide">Dashboard <span class="text-orange-500 glow-text-orange">สรุปการส่งมอบสินค้า</span></h1>
+                <p class="text-slate-400 mt-2 flex items-center text-sm md:text-base">
+                    <span class="font-semibold text-blue-400 mr-2">บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด</span> 
+                    | ประจำเดือนกุมภาพันธ์
+                </p>
+            </div>
+            <div class="mt-4 md:mt-0 glass-panel px-4 py-2 rounded-lg flex items-center text-sm text-slate-300">
+                <i data-lucide="calendar" class="w-4 h-4 mr-2 text-orange-400"></i>
+                ข้อมูลล่าสุด: 28 กุมภาพันธ์
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto space-y-6">
+        
+        <!-- KPI Cards Container -->
+        <div id="kpi-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Cards will be injected by JS -->
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- Comparison Bar Chart: เปรียบเทียบระยะเวลาจัดส่ง -->
+            <div class="glass-panel rounded-xl p-6">
+                <h3 class="text-lg font-bold text-slate-100 mb-4 flex items-center justify-between">
+                    <span class="flex items-center">
+                        <i data-lucide="truck" class="w-5 h-5 mr-2 text-blue-400"></i>
+                        เปรียบเทียบระยะเวลาจัดส่ง <span class="text-slate-400 text-sm font-normal ml-2">(ม.ค. vs ก.พ.)</span>
+                    </span>
+                </h3>
+                <div class="h-64 relative">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Bar Chart: แนวโน้มการจัดส่งรายสัปดาห์ -->
+            <div class="glass-panel rounded-xl p-6">
+                <h3 class="text-lg font-bold text-slate-100 mb-4 flex items-center">
+                    <i data-lucide="calendar" class="w-5 h-5 mr-2 text-orange-400"></i>
+                    แนวโน้มการจัดส่งรายสัปดาห์ <span class="text-slate-400 text-sm font-normal ml-2">ก.พ. (SLA 3 วัน)</span>
+                </h3>
+                <div class="h-64 relative">
+                    <canvas id="weeklyChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendations Section -->
+        <div class="glass-panel-heavy rounded-xl p-6 relative overflow-hidden border-orange-500/30 glow-border-orange">
+            <!-- Decorative Glow inside -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-orange-500/5 rounded-full blur-[80px] pointer-events-none"></div>
+            
+            <h3 class="text-lg font-bold text-orange-400 mb-5 flex items-center glow-text-orange relative z-10">
+                <i data-lucide="lightbulb" class="w-6 h-6 mr-2 text-yellow-400 fill-yellow-400/20"></i>
+                ข้อเสนอแนะเชิงกลยุทธ์จากข้อมูล (Key Recommendations)
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 relative z-10">
+                <!-- ข้อ 1 -->
+                <div class="bg-black/20 backdrop-blur-sm p-5 rounded-lg border border-white/5 hover:border-orange-500/30 transition-colors">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-rose-500/10 border border-rose-500/20 p-2 rounded-full mr-3">
+                            <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-400"></i>
+                        </div>
+                        <h4 class="font-semibold text-slate-200 text-sm">วิเคราะห์สาเหตุที่ทำให้ล่าช้า</h4>
+                    </div>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        อัตราการส่งมอบล่าช้า (เกิน 3 วัน) เพิ่มขึ้นจากเดือน ม.ค. เล็กน้อย (16.55%) 
+                        ทีมงานควรเจาะลึกหาสาเหตุของ <b class="text-orange-400">93 รายการ</b> ที่ล่าช้า ว่ามาจากกระบวนการใด เช่น รถขนส่งไม่พอ หรือการประสานงาน
+                    </p>
+                </div>
+
+                <!-- ข้อ 2 -->
+                <div class="bg-black/20 backdrop-blur-sm p-5 rounded-lg border border-white/5 hover:border-emerald-500/30 transition-colors">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-emerald-500/10 border border-emerald-500/20 p-2 rounded-full mr-3">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+                        </div>
+                        <h4 class="font-semibold text-slate-200 text-sm">รักษามาตรฐาน Qty Fulfillment</h4>
+                    </div>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        อัตราการส่งมอบสินค้าครบถ้วนทำได้ดีมากที่ <b class="text-emerald-400" id="rec-qty">97.42%</b> (เติบโตจาก 96.43%) 
+                        แสดงถึงการจัดการสต็อกและคลังสินค้าที่มีประสิทธิภาพ นำไปเป็นมาตรฐานต่อไป
+                    </p>
+                </div>
+
+                <!-- ข้อ 3 -->
+                <div class="bg-black/20 backdrop-blur-sm p-5 rounded-lg border border-white/5 hover:border-blue-500/30 transition-colors">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-blue-500/10 border border-blue-500/20 p-2 rounded-full mr-3">
+                            <i data-lucide="clock" class="w-4 h-4 text-blue-400"></i>
+                        </div>
+                        <h4 class="font-semibold text-slate-200 text-sm">เพิ่มระบบแจ้งเตือน (Early Warning)</h4>
+                    </div>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        กว่า 61.9% ของออเดอร์ สามารถส่งได้ภายใน 1-2 วัน เพื่อป้องกันของค้างจนเกิน 3 วัน 
+                        ควรตั้ง Alert แจ้งเตือนงานที่ค้างในระบบเกิน <b class="text-blue-400">48 ชั่วโมง</b>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Table Section -->
+        <div class="glass-panel rounded-xl overflow-hidden mb-8">
+            <div class="px-6 py-5 border-b border-white/10 flex justify-between items-center bg-white/5">
+                <h3 class="text-lg font-bold text-slate-100">ตัวอย่างรายการจัดส่งล่าสุด</h3>
+                <button class="text-sm text-orange-400 hover:text-orange-300 hover:glow-text-orange font-medium transition-all">ดูรายงานฉบับเต็ม</button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-black/20 text-slate-400 text-sm">
+                            <th class="px-6 py-4 font-medium">ลำดับ</th>
+                            <th class="px-6 py-4 font-medium">วันที่สั่ง</th>
+                            <th class="px-6 py-4 font-medium">วันที่ส่งจริง</th>
+                            <th class="px-6 py-4 font-medium">ระยะเวลา</th>
+                            <th class="px-6 py-4 font-medium">ชื่อลูกค้า / บริษัท</th>
+                            <th class="px-6 py-4 font-medium text-center">สถานะ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body" class="divide-y divide-white/5 text-sm">
+                        <!-- Table rows will be injected by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Data ---
+        const febData = {
+            totalOrders: 562,
+            within3Days: 469,
+            within3DaysPercent: 83.45,
+            over3Days: 93,
+            over3DaysPercent: 16.55,
+            day1: 200,
+            day2: 153, 
+            day3: 116, 
+            qtyFulfillmentPercent: 97.42,
+            qtyOrdered: 4186,
+            qtyDelivered: 4078
+        };
+
+        const janData = {
+            totalOrders: 665,
+            within3DaysPercent: 84.36,
+            over3DaysPercent: 15.64,
+            qtyFulfillmentPercent: 96.43,
+            qtyOrdered: 5297,
+            qtyDelivered: 5108,
+            day1: 221,
+            day2: 191,
+            day3: 149,
+            over3Days: 104
+        };
+
+        const comparisonData = [
+            { name: '1 วัน', มกราคม: janData.day1, กุมภาพันธ์: febData.day1 },
+            { name: '2 วัน', มกราคม: janData.day2, กุมภาพันธ์: febData.day2 },
+            { name: '3 วัน', มกราคม: janData.day3, กุมภาพันธ์: febData.day3 },
+            { name: 'เกิน 3 วัน', มกราคม: janData.over3Days, กุมภาพันธ์: febData.over3Days },
+        ];
+
+        const weeklyData = [
+            { name: 'สัปดาห์ที่ 1', withinSLA: 110, overSLA: 25 },
+            { name: 'สัปดาห์ที่ 2', withinSLA: 125, overSLA: 20 },
+            { name: 'สัปดาห์ที่ 3', withinSLA: 115, overSLA: 30 },
+            { name: 'สัปดาห์ที่ 4', withinSLA: 119, overSLA: 18 },
+        ];
+
+        const recentDeliveries = [
+            { id: '1', orderDate: '26 ก.พ. 26', actualDate: '2 มี.ค. 26', duration: 3, customer: 'ร้านท่าคันโทโลหะศรีธาตุ', qty: 5, status: 'ตามกำหนด' },
+            { id: '2', orderDate: '26 ก.พ. 26', actualDate: '2 มี.ค. 26', duration: 3, customer: 'ร้านวิชัยวัสดุก่อสร้าง', qty: 5, status: 'ตามกำหนด' },
+            { id: '3', orderDate: '27 ก.พ. 26', actualDate: '2 มี.ค. 26', duration: 2, customer: 'ร้านส.เจริญรุ่ง', qty: 5, status: 'ตามกำหนด' },
+        ];
+
+        // --- Render KPI Cards ---
+        const kpis = [
+            {
+                title: "จำนวนจัดส่งทั้งหมด", value: `${febData.totalOrders} รายการ`, subtitle: "ยอดจัดส่ง ก.พ.",
+                icon: "package", colorClass: "text-blue-400", bgColorClass: "bg-blue-500/10 border border-blue-500/20",
+                trendDirection: febData.totalOrders > janData.totalOrders ? 'up' : 'down',
+                trendColor: febData.totalOrders > janData.totalOrders ? 'green' : 'red',
+                trendValue: Math.abs(febData.totalOrders - janData.totalOrders), trendLabel: "จาก ม.ค."
+            },
+            {
+                title: "ส่งมอบใน 3 วัน (SLA)", value: `${febData.within3DaysPercent}%`, subtitle: `จำนวน ${febData.within3Days} รายการ`,
+                icon: "check-circle", colorClass: "text-emerald-400", bgColorClass: "bg-emerald-500/10 border border-emerald-500/20",
+                trendDirection: febData.within3DaysPercent >= janData.within3DaysPercent ? 'up' : 'down',
+                trendColor: febData.within3DaysPercent >= janData.within3DaysPercent ? 'green' : 'red',
+                trendValue: `${Math.abs(febData.within3DaysPercent - janData.within3DaysPercent).toFixed(2)}%`, trendLabel: "จาก ม.ค."
+            },
+            {
+                title: "ความสำเร็จจำนวนสินค้า", value: `${febData.qtyFulfillmentPercent}%`, subtitle: `ส่งได้ ${febData.qtyDelivered}/${febData.qtyOrdered} ชิ้น`,
+                icon: "box", colorClass: "text-orange-400", bgColorClass: "bg-orange-500/10 border border-orange-500/30 shadow-[0_0_15px_rgba(249,115,22,0.15)]",
+                trendDirection: febData.qtyFulfillmentPercent >= janData.qtyFulfillmentPercent ? 'up' : 'down',
+                trendColor: febData.qtyFulfillmentPercent >= janData.qtyFulfillmentPercent ? 'green' : 'red',
+                trendValue: `${Math.abs(febData.qtyFulfillmentPercent - janData.qtyFulfillmentPercent).toFixed(2)}%`, trendLabel: "จาก ม.ค."
+            },
+            {
+                title: "ส่งมอบเกิน 3 วัน (ล่าช้า)", value: `${febData.over3DaysPercent}%`, subtitle: `จำนวน ${febData.over3Days} รายการ`,
+                icon: "alert-triangle", colorClass: "text-rose-400", bgColorClass: "bg-rose-500/10 border border-rose-500/20",
+                trendDirection: febData.over3DaysPercent > janData.over3DaysPercent ? 'up' : 'down',
+                trendColor: febData.over3DaysPercent < janData.over3DaysPercent ? 'green' : 'red',
+                trendValue: `${Math.abs(febData.over3DaysPercent - janData.over3DaysPercent).toFixed(2)}%`, trendLabel: "จาก ม.ค."
+            }
+        ];
+
+        const kpiContainer = document.getElementById('kpi-container');
+        kpiContainer.innerHTML = kpis.map(kpi => `
+            <div class="glass-panel rounded-xl p-6 flex flex-col justify-between group hover:border-white/20 transition-all duration-300 relative overflow-hidden">
+                <div class="absolute -inset-1 bg-gradient-to-r from-white/0 via-white/0 to-white/0 group-hover:from-white/5 transition-all duration-500 pointer-events-none"></div>
+                <div class="flex items-center mb-4 relative z-10">
+                    <div class="p-3 rounded-full ${kpi.bgColorClass} ${kpi.colorClass} mr-4">
+                        <i data-lucide="${kpi.icon}" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-slate-400">${kpi.title}</p>
+                        <h3 class="text-2xl font-bold text-white tracking-wide">${kpi.value}</h3>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between mt-1 text-sm relative z-10">
+                    <p class="text-slate-500">${kpi.subtitle}</p>
+                    ${kpi.trendDirection ? `
+                        <div class="flex items-center font-medium ${kpi.trendColor === 'green' ? 'text-emerald-400' : 'text-rose-400'}">
+                            <i data-lucide="trending-${kpi.trendDirection}" class="w-4 h-4 mr-1"></i>
+                            ${kpi.trendValue} <span class="text-slate-500 ml-1 font-normal">${kpi.trendLabel}</span>
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+        `).join('');
+
+        // --- Render Table ---
+        const tableBody = document.getElementById('table-body');
+        tableBody.innerHTML = recentDeliveries.map(item => `
+            <tr class="hover:bg-white/5 transition-colors group">
+                <td class="px-6 py-4 text-slate-400">${item.id}</td>
+                <td class="px-6 py-4 text-slate-300">${item.orderDate}</td>
+                <td class="px-6 py-4 text-slate-300">${item.actualDate}</td>
+                <td class="px-6 py-4 font-medium text-orange-400">${item.duration} วัน</td>
+                <td class="px-6 py-4 text-slate-200">${item.customer}</td>
+                <td class="px-6 py-4 text-center">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${
+                        item.status === 'ตามกำหนด' 
+                        ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 shadow-[0_0_10px_rgba(16,185,129,0.15)]' 
+                        : 'bg-rose-500/10 text-rose-400 border-rose-500/30 shadow-[0_0_10px_rgba(244,63,94,0.15)]'
+                    }">
+                        ${item.status}
+                    </span>
+                </td>
+            </tr>
+        `).join('');
+
+        // Initialize Icons
+        lucide.createIcons();
+
+        // --- Render Charts (Chart.js) ---
+        // Global Chart Defaults for Dark Theme
+        Chart.defaults.font.family = "'Prompt', sans-serif";
+        Chart.defaults.color = "#94a3b8"; // slate-400
+        
+        // Define common tooltip style
+        const darkTooltip = {
+            backgroundColor: 'rgba(15, 23, 42, 0.95)', // Dark Slate Blue
+            titleColor: '#f8fafc',
+            bodyColor: '#cbd5e1',
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            borderWidth: 1,
+            padding: 12,
+            cornerRadius: 8,
+            titleFont: { size: 14, family: "'Prompt', sans-serif" },
+            bodyFont: { size: 13, family: "'Prompt', sans-serif" }
+        };
+
+        // Chart 1: Comparison Bar Chart
+        const ctxComparison = document.getElementById('comparisonChart').getContext('2d');
+        new Chart(ctxComparison, {
+            type: 'bar',
+            data: {
+                labels: comparisonData.map(d => d.name),
+                datasets: [
+                    {
+                        label: 'มกราคม',
+                        data: comparisonData.map(d => d.มกราคม),
+                        backgroundColor: 'rgba(59, 130, 246, 0.15)', // Dim Blue
+                        borderColor: 'rgba(59, 130, 246, 0.5)',
+                        borderWidth: 1,
+                        borderRadius: { topLeft: 4, topRight: 4 },
+                        barPercentage: 0.6,
+                        categoryPercentage: 0.8
+                    },
+                    {
+                        label: 'กุมภาพันธ์',
+                        data: comparisonData.map(d => d.กุมภาพันธ์),
+                        backgroundColor: 'rgba(249, 115, 22, 0.85)', // Vibrant Orange
+                        borderColor: '#f97316',
+                        borderWidth: 1,
+                        borderRadius: { topLeft: 4, topRight: 4 },
+                        barPercentage: 0.6,
+                        categoryPercentage: 0.8,
+                        hoverBackgroundColor: '#ea580c'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8, color: '#cbd5e1' } },
+                    tooltip: darkTooltip
+                },
+                scales: {
+                    x: { grid: { display: false }, border: { display: false }, ticks: { color: '#94a3b8' } },
+                    y: { grid: { color: 'rgba(255, 255, 255, 0.05)', borderDash: [3, 3] }, border: { display: false }, beginAtZero: true, ticks: { color: '#94a3b8' } }
+                }
+            }
+        });
+
+        // Chart 2: Weekly Stacked Bar Chart
+        const ctxWeekly = document.getElementById('weeklyChart').getContext('2d');
+        new Chart(ctxWeekly, {
+            type: 'bar',
+            data: {
+                labels: weeklyData.map(d => d.name),
+                datasets: [
+                    {
+                        label: 'ภายใน 3 วัน (ตามเป้า)',
+                        data: weeklyData.map(d => d.withinSLA),
+                        backgroundColor: 'rgba(16, 185, 129, 0.85)', // Neon Green
+                        borderColor: '#10b981',
+                        borderWidth: 1,
+                        borderRadius: { topLeft: 0, topRight: 0, bottomLeft: 4, bottomRight: 4 },
+                        barPercentage: 0.5
+                    },
+                    {
+                        label: 'เกิน 3 วัน (ล่าช้า)',
+                        data: weeklyData.map(d => d.overSLA),
+                        backgroundColor: 'rgba(244, 63, 94, 0.85)', // Neon Rose/Red
+                        borderColor: '#f43f5e',
+                        borderWidth: 1,
+                        borderRadius: { topLeft: 4, topRight: 4, bottomLeft: 0, bottomRight: 0 },
+                        barPercentage: 0.5
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { stacked: true, grid: { display: false }, border: { display: false }, ticks: { color: '#94a3b8' } },
+                    y: { stacked: true, grid: { color: 'rgba(255, 255, 255, 0.05)', borderDash: [3, 3] }, border: { display: false }, ticks: { color: '#94a3b8' } }
+                },
+                plugins: {
+                    legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8, color: '#cbd5e1' } },
+                    tooltip: darkTooltip
+                }
+            }
+        });
+    </script>
+  <a href="executivekpis.html" style="position: fixed; bottom: 20px; right: 20px; background-color: #0d6efd; color: white; padding: 10px 20px; text-decoration: none; border-radius: 30px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); z-index: 9999;">
+    หน้าถัดไป (Executive KPIs) ➜
+</body>
+</html>
