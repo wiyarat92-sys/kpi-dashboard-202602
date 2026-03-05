@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kaizen Executive Summary - Feb 2026</title>
+    <title>Kaizen Executive Summary - Feb 2026 (Dark Theme)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Kanit -->
@@ -15,67 +15,116 @@
     <style>
         body {
             font-family: 'Kanit', sans-serif;
-            background-color: #f8fafc;
+            background-color: #0b1121; /* Deep Dark Blue */
+            color: #e2e8f0;
         }
-        .card-hover:hover {
+        
+        /* Glassmorphism Effect */
+        .glass-panel {
+            background: rgba(17, 25, 40, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        
+        .glass-panel-hover:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(249, 115, 22, 0.3); /* Orange border on hover */
             transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 30px -5px rgba(249, 115, 22, 0.15);
+            transition: all 0.3s ease;
         }
+
+        /* Neon Glow Effects */
+        .glow-text-orange {
+            color: #f97316;
+            text-shadow: 0 0 15px rgba(249, 115, 22, 0.6);
+        }
+        .glow-box-orange {
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
+        }
+        .glow-icon {
+            filter: drop-shadow(0 0 8px rgba(249, 115, 22, 0.8));
+        }
+
+        /* Modal specific */
         .modal {
-            transition: opacity 0.25s ease;
+            transition: opacity 0.3s ease;
         }
         body.modal-active {
             overflow-x: hidden;
-            overflow-y: visible !important;
+            overflow-y: hidden;
         }
-        /* Custom Scrollbar for Modal */
         .modal-content::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
         .modal-content::-webkit-scrollbar-track {
-            background: #f1f5f9;
+            background: rgba(255, 255, 255, 0.02);
         }
         .modal-content::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
+            background: rgba(249, 115, 22, 0.5);
             border-radius: 4px;
         }
+        
+        /* Lists in modal */
         .list-custom ul {
-            list-style-type: disc;
-            padding-left: 1.25rem;
+            list-style-type: none;
+            padding-left: 0;
         }
-        .list-custom ol {
-            list-style-type: decimal;
-            padding-left: 1.25rem;
+        .list-custom ul li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .list-custom ul li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #f97316; /* Orange bullet */
+            font-size: 1.5rem;
+            line-height: 1rem;
+            top: 0.1rem;
+        }
+        
+        /* Custom Table Row Hover */
+        .table-row-hover:hover td {
+            background-color: rgba(255, 255, 255, 0.03);
         }
     </style>
 </head>
-<body class="text-slate-900 antialiased">
+<body class="antialiased relative min-h-screen overflow-x-hidden">
 
-    <div class="min-h-screen p-4 md:p-8 lg:p-12 relative">
+    <!-- Ambient Background Glows -->
+    <div class="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-orange-600/10 blur-[120px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-blue-600/10 blur-[120px] pointer-events-none z-0"></div>
+
+    <div class="min-h-screen p-4 md:p-8 lg:p-12 relative z-10">
         <!-- Header Section -->
         <div class="max-w-7xl mx-auto mb-10">
-            <div class="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full -mr-16 -mt-16 opacity-50 z-0"></div>
+            <div class="glass-panel rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+                <!-- Inner decorative glow -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
                 
                 <div class="relative z-10">
-                    <div class="flex items-center gap-3 mb-2">
-                        <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold uppercase tracking-wider">Feb 2026 Report</span>
-                        <span class="text-slate-400 text-sm">|</span>
-                        <span class="text-slate-500 text-sm font-medium">บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด</span>
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="px-3 py-1 bg-orange-500/20 text-orange-400 border border-orange-500/30 rounded-full text-xs font-bold uppercase tracking-wider shadow-[0_0_10px_rgba(249,115,22,0.2)]">Feb 2026 Report</span>
+                        <span class="text-slate-600 text-sm">|</span>
+                        <span class="text-slate-400 text-sm font-medium">บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด</span>
                     </div>
-                    <h1 class="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight mt-2">
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight mt-2">
                         Kaizen Executive Dashboard
                     </h1>
-                    <p class="text-slate-500 text-lg mt-2">สรุปภาพรวมการเสนอแนะหัวข้อไคเซ็นเพื่อการพัฒนาองค์กร</p>
+                    <p class="text-slate-400 text-lg mt-2 font-light">สรุปภาพรวมการเสนอแนะหัวข้อไคเซ็นเพื่อการพัฒนาองค์กร (Dark Mode Edition)</p>
                 </div>
 
-                <div class="relative z-10 flex items-center gap-4">
+                <div class="relative z-10 flex items-center gap-5">
                     <div class="text-right hidden md:block">
-                        <p class="text-sm text-slate-400 font-medium">Total Proposals</p>
-                        <p class="text-3xl font-black text-slate-800">3 <span class="text-lg font-normal text-slate-400">หัวข้อ</span></p>
+                        <p class="text-sm text-slate-400 font-medium uppercase tracking-widest">Total Proposals</p>
+                        <p class="text-4xl font-black glow-text-orange mt-1">3 <span class="text-lg font-normal text-slate-400">หัวข้อ</span></p>
                     </div>
-                    <div class="bg-blue-600 text-white p-4 rounded-2xl shadow-lg shadow-blue-200">
-                        <i data-lucide="file-bar-chart-2" class="w-8 h-8"></i>
+                    <div class="bg-gradient-to-br from-orange-400 to-orange-600 text-white p-4 rounded-2xl glow-box-orange">
+                        <i data-lucide="zap" class="w-8 h-8 text-white"></i>
                     </div>
                 </div>
             </div>
@@ -84,67 +133,73 @@
         <div class="max-w-7xl mx-auto space-y-8">
             <!-- Key Metrics Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 card-hover transition-all duration-300">
+                <!-- Card 1 -->
+                <div class="glass-panel glass-panel-hover rounded-2xl p-6 cursor-default">
                     <div class="flex justify-between items-start mb-4">
-                        <div class="bg-blue-50 p-3 rounded-xl">
-                            <i data-lucide="timer" class="w-6 h-6 text-blue-600"></i>
+                        <div class="bg-orange-500/20 p-3 rounded-xl border border-orange-500/30">
+                            <i data-lucide="timer" class="w-6 h-6 text-orange-400 glow-icon"></i>
                         </div>
-                        <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">67%</span>
+                        <span class="text-xs font-bold text-orange-400 bg-orange-500/10 border border-orange-500/20 px-2 py-1 rounded-lg">67%</span>
                     </div>
-                    <h3 class="text-2xl font-bold text-slate-800">ลดเวลางาน</h3>
-                    <p class="text-sm text-slate-500 mt-1">มุ่งเน้นความเร็ว (2 หัวข้อ)</p>
+                    <h3 class="text-2xl font-bold text-white">ลดเวลางาน</h3>
+                    <p class="text-sm text-slate-400 mt-1">มุ่งเน้นความเร็ว (2 หัวข้อ)</p>
                 </div>
 
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 card-hover transition-all duration-300">
+                <!-- Card 2 -->
+                <div class="glass-panel glass-panel-hover rounded-2xl p-6 cursor-default">
                     <div class="flex justify-between items-start mb-4">
-                        <div class="bg-indigo-50 p-3 rounded-xl">
-                            <i data-lucide="check-square" class="w-6 h-6 text-indigo-600"></i>
+                        <div class="bg-blue-500/20 p-3 rounded-xl border border-blue-500/30">
+                            <i data-lucide="check-square" class="w-6 h-6 text-blue-400"></i>
                         </div>
-                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-1 rounded-lg">Quality</span>
+                        <span class="text-xs font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-1 rounded-lg">Quality</span>
                     </div>
-                    <h3 class="text-2xl font-bold text-slate-800">3 โครงการ</h3>
-                    <p class="text-sm text-slate-500 mt-1">เน้นการเพิ่มคุณภาพ</p>
+                    <h3 class="text-2xl font-bold text-white">3 โครงการ</h3>
+                    <p class="text-sm text-slate-400 mt-1">เน้นการเพิ่มคุณภาพ</p>
                 </div>
 
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 card-hover transition-all duration-300">
+                <!-- Card 3 -->
+                <div class="glass-panel glass-panel-hover rounded-2xl p-6 cursor-default">
                     <div class="flex justify-between items-start mb-4">
-                        <div class="bg-purple-50 p-3 rounded-xl">
-                            <i data-lucide="users" class="w-6 h-6 text-purple-600"></i>
+                        <div class="bg-emerald-500/20 p-3 rounded-xl border border-emerald-500/30">
+                            <i data-lucide="users" class="w-6 h-6 text-emerald-400"></i>
                         </div>
-                        <span class="text-xs font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-lg">Active</span>
+                        <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-1 rounded-lg">Active</span>
                     </div>
-                    <h3 class="text-2xl font-bold text-slate-800">3 แผนก</h3>
-                    <p class="text-sm text-slate-500 mt-1">บริหาร, ขายส่ง, บัญชี</p>
+                    <h3 class="text-2xl font-bold text-white">3 แผนก</h3>
+                    <p class="text-sm text-slate-400 mt-1">บริหาร, ขายส่ง, บัญชี</p>
                 </div>
 
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 card-hover transition-all duration-300">
+                <!-- Card 4 -->
+                <div class="glass-panel glass-panel-hover rounded-2xl p-6 cursor-default">
                     <div class="flex justify-between items-start mb-4">
-                        <div class="bg-rose-50 p-3 rounded-xl">
-                            <i data-lucide="trending-up" class="w-6 h-6 text-rose-600"></i>
+                        <div class="bg-purple-500/20 p-3 rounded-xl border border-purple-500/30">
+                            <i data-lucide="trending-up" class="w-6 h-6 text-purple-400"></i>
                         </div>
-                        <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2 py-1 rounded-lg">Sales</span>
+                        <span class="text-xs font-bold text-purple-400 bg-purple-500/10 border border-purple-500/20 px-2 py-1 rounded-lg">Sales</span>
                     </div>
-                    <h3 class="text-2xl font-bold text-slate-800">1 หัวข้อ</h3>
-                    <p class="text-sm text-slate-500 mt-1">สนับสนุนการขาย (E-Catalog)</p>
+                    <h3 class="text-2xl font-bold text-white">1 หัวข้อ</h3>
+                    <p class="text-sm text-slate-400 mt-1">สนับสนุนการขาย (E-Catalog)</p>
                 </div>
             </div>
 
             <!-- Charts Section -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                <!-- Bar Chart -->
+                <div class="glass-panel p-8 rounded-3xl">
                     <div class="flex items-center gap-3 mb-6">
-                        <div class="w-1 h-6 bg-blue-500 rounded-full"></div>
-                        <h3 class="text-lg font-bold text-slate-800">วัตถุประสงค์ของโครงการ (กุมภาพันธ์)</h3>
+                        <div class="w-1.5 h-6 bg-orange-500 rounded-full glow-box-orange"></div>
+                        <h3 class="text-lg font-bold text-white">วัตถุประสงค์ของโครงการ (กุมภาพันธ์)</h3>
                     </div>
                     <div class="h-[300px] w-full">
                         <canvas id="objectiveChart"></canvas>
                     </div>
                 </div>
 
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                <!-- Doughnut Chart -->
+                <div class="glass-panel p-8 rounded-3xl">
                     <div class="flex items-center gap-3 mb-6">
-                        <div class="w-1 h-6 bg-rose-500 rounded-full"></div>
-                        <h3 class="text-lg font-bold text-slate-800">พื้นที่การปรับปรุง (Location)</h3>
+                        <div class="w-1.5 h-6 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+                        <h3 class="text-lg font-bold text-white">พื้นที่การปรับปรุง (Location)</h3>
                     </div>
                     <div class="h-[300px] w-full flex justify-center">
                         <canvas id="locationChart"></canvas>
@@ -153,13 +208,13 @@
             </div>
 
             <!-- Data Table -->
-            <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden" id="table-section">
-                <div class="p-8 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div class="glass-panel rounded-3xl overflow-hidden" id="table-section">
+                <div class="p-8 border-b border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/5">
                     <div>
-                        <h3 class="text-xl font-bold text-slate-800">ทำเนียบรายละเอียดโครงการ (กุมภาพันธ์)</h3>
-                        <p class="text-sm text-slate-500 mt-1">คลิกที่ปุ่ม <span class="font-bold text-blue-600">"ดูรายละเอียด"</span> เพื่อดูข้อมูลเชิงลึกของแต่ละหัวข้อ</p>
+                        <h3 class="text-xl font-bold text-white">ทำเนียบรายละเอียดโครงการ (กุมภาพันธ์)</h3>
+                        <p class="text-sm text-slate-400 mt-1">คลิกที่ปุ่ม <span class="font-bold text-orange-400">"ดูรายละเอียด"</span> เพื่อดูข้อมูลเชิงลึก</p>
                     </div>
-                    <button class="flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-blue-600 transition-colors cursor-pointer bg-slate-50 px-4 py-2 rounded-lg border border-slate-200">
+                    <button class="flex items-center gap-2 text-sm font-bold text-orange-400 hover:text-white border border-orange-500/50 hover:bg-orange-500 hover:border-orange-500 px-5 py-2.5 rounded-xl transition-all glow-box-orange">
                         <i data-lucide="download" class="w-4 h-4"></i>
                         Export Data
                     </button>
@@ -167,57 +222,61 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-slate-50/50 border-y border-slate-100">
-                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider w-[30%]">ผู้เสนอ / ID / วันที่</th>
-                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider w-[30%]">หัวข้อการปรับปรุง</th>
-                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider hidden md:table-cell">ประเภท/สถานที่</th>
-                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">จัดการ</th>
+                            <tr class="border-y border-white/10 bg-black/20">
+                                <th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider w-[30%]">ผู้เสนอ / ID / วันที่</th>
+                                <th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider w-[30%]">หัวข้อการปรับปรุง</th>
+                                <th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider hidden md:table-cell">ประเภท/สถานที่</th>
+                                <th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider text-right">จัดการ</th>
                             </tr>
                         </thead>
-                        <tbody id="tableBody" class="divide-y divide-slate-100">
+                        <tbody id="tableBody" class="divide-y divide-white/5">
                             <!-- Javascript will inject rows here -->
                         </tbody>
                     </table>
                 </div>
-                <div class="p-4 bg-slate-50 text-center border-t border-slate-100">
-                    <p class="text-xs text-slate-400">Generated by Kaizen Executive Dashboard System</p>
+                <div class="p-4 bg-black/30 text-center border-t border-white/10">
+                    <p class="text-xs text-slate-500">Generated by Kaizen Executive Dashboard System (Dark Glassmorphism UI)</p>
                 </div>
             </div>
         </div>
 
         <!-- Modal Overlay -->
         <div id="kaizenModal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50 p-4">
-            <div class="modal-overlay absolute w-full h-full bg-slate-900 opacity-60 backdrop-blur-sm"></div>
+            <!-- Modal Backdrop Blur -->
+            <div class="modal-overlay absolute w-full h-full bg-[#0b1121]/80 backdrop-blur-md"></div>
             
-            <div class="modal-container bg-white w-full md:max-w-2xl mx-auto rounded-2xl shadow-2xl z-50 overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh]">
+            <div class="modal-container relative glass-panel w-full md:max-w-2xl mx-auto rounded-2xl z-50 overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh] border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
                 
+                <!-- Glowing top border -->
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 via-blue-500 to-emerald-500 opacity-80"></div>
+
                 <!-- Modal Content -->
                 <div class="modal-content overflow-y-auto p-6 md:p-8">
                     <!-- Title -->
-                    <div class="flex justify-between items-start pb-4 border-b border-slate-100 mb-6">
+                    <div class="flex justify-between items-start pb-4 border-b border-white/10 mb-6">
                         <div>
-                            <span class="inline-block py-1 px-2 rounded bg-slate-100 text-slate-500 text-xs font-mono font-bold mb-2" id="modalId">ID: KZ-XXXX-XX</span>
-                            <h2 class="text-2xl font-bold text-slate-800 leading-snug" id="modalTopic">หัวข้อการปรับปรุง</h2>
+                            <span class="inline-block py-1 px-3 rounded-lg bg-white/5 border border-white/10 text-orange-400 text-xs font-mono font-bold mb-3" id="modalId">ID: KZ-XXXX-XX</span>
+                            <h2 class="text-2xl font-bold text-white leading-snug" id="modalTopic">หัวข้อการปรับปรุง</h2>
                         </div>
-                        <div class="modal-close cursor-pointer z-50 p-2 bg-slate-100 rounded-full hover:bg-slate-200 transition-colors flex-shrink-0 ml-4" onclick="closeModal()">
-                            <i data-lucide="x" class="w-5 h-5 text-slate-500"></i>
+                        <div class="modal-close cursor-pointer z-50 p-2 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 hover:text-orange-400 transition-colors flex-shrink-0 ml-4 text-slate-400" onclick="closeModal()">
+                            <i data-lucide="x" class="w-5 h-5"></i>
                         </div>
                     </div>
 
                     <!-- Body -->
                     <div class="space-y-6">
                         <!-- User Info Section -->
-                        <div class="flex items-center gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                            <div class="w-14 h-14 rounded-full bg-white flex items-center justify-center border border-slate-200 shadow-sm text-xl font-bold text-blue-600 flex-shrink-0">
-                                <i data-lucide="user" class="w-7 h-7"></i>
+                        <div class="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10">
+                            <div class="w-14 h-14 rounded-full bg-orange-500/20 flex items-center justify-center border border-orange-500/30 text-xl font-bold text-orange-400 flex-shrink-0">
+                                <i data-lucide="user" class="w-7 h-7 glow-icon"></i>
                             </div>
                             <div class="flex-grow">
-                                <p class="text-lg font-bold text-slate-800" id="modalName">ชื่อ-นามสกุล</p>
-                                <p class="text-sm text-slate-500" id="modalPos">ตำแหน่ง</p>
+                                <p class="text-lg font-bold text-white" id="modalName">ชื่อ-นามสกุล</p>
+                                <p class="text-sm text-slate-400" id="modalPos">ตำแหน่ง</p>
                             </div>
                             <div class="text-right hidden sm:block">
-                                <div class="flex items-center gap-1.5 text-slate-500 text-sm justify-end bg-white px-3 py-1 rounded-full border border-slate-200">
-                                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-rose-500"></i>
+                                <div class="flex items-center gap-1.5 text-slate-300 text-sm justify-end bg-black/30 px-3 py-1.5 rounded-full border border-white/5">
+                                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-blue-400"></i>
                                     <span id="modalLoc">สถานที่</span>
                                 </div>
                             </div>
@@ -228,35 +287,35 @@
 
                         <!-- Details Grid -->
                         <div class="grid grid-cols-1 gap-4 list-custom">
-                            <div class="bg-rose-50/40 p-5 rounded-xl border border-rose-100/60">
-                                <h4 class="font-bold text-rose-700 mb-3 flex items-center gap-2">
+                            <div class="bg-black/20 p-5 rounded-xl border border-rose-500/20 hover:border-rose-500/40 transition-colors">
+                                <h4 class="font-bold text-rose-400 mb-3 flex items-center gap-2 drop-shadow-[0_0_5px_rgba(244,63,94,0.5)]">
                                     <i data-lucide="alert-triangle" class="w-5 h-5"></i> สภาพปัญหาปัจจุบัน
                                 </h4>
-                                <div class="text-sm text-slate-700 leading-relaxed space-y-2" id="modalProblem"></div>
+                                <div class="text-sm text-slate-300 leading-relaxed space-y-2" id="modalProblem"></div>
                             </div>
                             
-                            <div class="bg-blue-50/40 p-5 rounded-xl border border-blue-100/60">
-                                <h4 class="font-bold text-blue-700 mb-3 flex items-center gap-2">
+                            <div class="bg-black/20 p-5 rounded-xl border border-blue-500/20 hover:border-blue-500/40 transition-colors">
+                                <h4 class="font-bold text-blue-400 mb-3 flex items-center gap-2 drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]">
                                     <i data-lucide="lightbulb" class="w-5 h-5"></i> รายละเอียดการปรับปรุง
                                 </h4>
-                                <div class="text-sm text-slate-700 leading-relaxed space-y-2" id="modalSolution"></div>
+                                <div class="text-sm text-slate-300 leading-relaxed space-y-2" id="modalSolution"></div>
                             </div>
 
-                            <div class="bg-emerald-50/40 p-5 rounded-xl border border-emerald-100/60">
-                                <h4 class="font-bold text-emerald-700 mb-3 flex items-center gap-2">
+                            <div class="bg-black/20 p-5 rounded-xl border border-emerald-500/20 hover:border-emerald-500/40 transition-colors">
+                                <h4 class="font-bold text-emerald-400 mb-3 flex items-center gap-2 drop-shadow-[0_0_5px_rgba(16,185,129,0.5)]">
                                     <i data-lucide="check-circle-2" class="w-5 h-5"></i> ประโยชน์ที่ได้รับ
                                 </h4>
-                                <div class="text-sm text-slate-700 leading-relaxed space-y-2" id="modalBenefit"></div>
+                                <div class="text-sm text-slate-300 leading-relaxed space-y-2" id="modalBenefit"></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Footer (Fixed) -->
-                <div class="p-6 bg-slate-50 border-t border-slate-100 flex justify-end gap-3 flex-shrink-0">
-                    <button class="px-5 py-2.5 bg-white text-slate-600 font-medium rounded-xl border border-slate-200 hover:bg-slate-50 transition shadow-sm" onclick="closeModal()">ปิดหน้าต่าง</button>
-                    <button class="px-5 py-2.5 bg-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-200 hover:bg-blue-700 transition flex items-center gap-2" onclick="closeModal()">
-                        <i data-lucide="thumbs-up" class="w-4 h-4"></i> รับทราบ/อนุมัติ
+                <div class="p-6 bg-black/40 border-t border-white/10 flex justify-end gap-3 flex-shrink-0">
+                    <button class="px-5 py-2.5 bg-white/5 text-slate-300 font-medium rounded-xl border border-white/10 hover:bg-white/10 transition" onclick="closeModal()">ปิดหน้าต่าง</button>
+                    <button class="px-5 py-2.5 bg-orange-500 text-white font-bold rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.4)] hover:bg-orange-400 hover:shadow-[0_0_20px_rgba(249,115,22,0.6)] transition flex items-center gap-2" onclick="closeModal()">
+                        <i data-lucide="check" class="w-4 h-4"></i> รับทราบ/อนุมัติ
                     </button>
                 </div>
             </div>
@@ -310,45 +369,45 @@
         
         kaizenData.forEach((item, index) => {
             const row = document.createElement('tr');
-            row.className = 'hover:bg-blue-50/40 transition-colors group border-b border-slate-50 last:border-b-0';
+            row.className = 'table-row-hover transition-colors group border-b border-white/5 last:border-b-0 cursor-default';
             
-            // Badges
+            // Badges (Dark Mode adaptation)
             const badges = item.cats.map(c => {
-                let colorClass = 'bg-slate-100 text-slate-600 border-slate-200';
-                if(c.includes('ลดเวลางาน')) colorClass = 'bg-blue-50 text-blue-600 border-blue-100';
-                if(c.includes('ปลอดภัย')) colorClass = 'bg-emerald-50 text-emerald-600 border-emerald-100';
-                if(c.includes('ยอดขาย')) colorClass = 'bg-rose-50 text-rose-600 border-rose-100';
-                if(c.includes('คุณภาพ')) colorClass = 'bg-indigo-50 text-indigo-600 border-indigo-100';
+                let colorClass = 'bg-white/10 text-slate-300 border-white/20';
+                if(c.includes('ลดเวลางาน')) colorClass = 'bg-orange-500/20 text-orange-300 border-orange-500/30';
+                if(c.includes('ปลอดภัย')) colorClass = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
+                if(c.includes('ยอดขาย')) colorClass = 'bg-blue-500/20 text-blue-300 border-blue-500/30';
+                if(c.includes('คุณภาพ')) colorClass = 'bg-purple-500/20 text-purple-300 border-purple-500/30';
                 return `<span class="px-2 py-0.5 rounded text-[10px] font-bold border ${colorClass} mr-1 mb-1 inline-block">${c}</span>`;
             }).join('');
 
             row.innerHTML = `
                 <td class="px-6 py-5 align-top">
                     <div class="flex flex-col">
-                        <span class="text-[10px] font-mono font-bold text-slate-400 mb-1 group-hover:text-blue-500 transition-colors">${item.id} <span class="text-slate-300">|</span> ${item.date}</span>
-                        <div class="flex items-center gap-2">
-                             <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-500 flex-shrink-0">
+                        <span class="text-[10px] font-mono font-bold text-slate-500 mb-1 group-hover:text-orange-400 transition-colors">${item.id} <span class="text-slate-600">|</span> ${item.date}</span>
+                        <div class="flex items-center gap-3">
+                             <div class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold text-white flex-shrink-0 border border-white/10 shadow-inner">
                                 ${item.name.charAt(0)}
                              </div>
                              <div>
-                                <span class="text-sm font-bold text-slate-800 block">${item.name}</span>
-                                <span class="text-[11px] text-slate-500 font-medium">${item.pos}</span>
+                                <span class="text-sm font-bold text-slate-200 block">${item.name}</span>
+                                <span class="text-[11px] text-slate-400 font-medium">${item.pos}</span>
                              </div>
                         </div>
                     </div>
                 </td>
                 <td class="px-6 py-5 align-top">
-                    <p class="text-sm font-semibold text-slate-700 leading-relaxed mb-1">${item.topic}</p>
+                    <p class="text-sm font-semibold text-white leading-relaxed mb-1">${item.topic}</p>
                     <p class="text-xs text-slate-400 line-clamp-1">${item.problem.replace(/<[^>]*>?/gm, '')}</p>
                 </td>
                 <td class="px-6 py-5 align-top hidden md:table-cell">
-                    <div class="flex flex-wrap mb-1">${badges}</div>
-                    <div class="flex items-center gap-1 text-slate-400 text-xs">
-                        <i data-lucide="map-pin" class="w-3 h-3"></i> <span class="truncate max-w-[150px] inline-block" title="${item.loc}">${item.loc}</span>
+                    <div class="flex flex-wrap mb-2">${badges}</div>
+                    <div class="flex items-center gap-1.5 text-slate-400 text-xs bg-black/20 w-fit px-2 py-1 rounded border border-white/5">
+                        <i data-lucide="map-pin" class="w-3 h-3 text-blue-400"></i> <span class="truncate max-w-[150px] inline-block" title="${item.loc}">${item.loc}</span>
                     </div>
                 </td>
                 <td class="px-6 py-5 align-middle text-right">
-                    <button onclick="openModal('${item.id}')" class="inline-flex items-center gap-1.5 bg-white hover:bg-blue-50 text-slate-600 hover:text-blue-600 border border-slate-200 hover:border-blue-200 px-3 py-2 rounded-lg transition-all text-xs font-bold shadow-sm group-hover:shadow-md cursor-pointer">
+                    <button onclick="openModal('${item.id}')" class="inline-flex items-center gap-1.5 bg-white/5 hover:bg-orange-500/20 text-slate-300 hover:text-orange-400 border border-white/10 hover:border-orange-500/50 px-3 py-2 rounded-lg transition-all text-xs font-bold shadow-[0_0_10px_rgba(0,0,0,0.2)] hover:shadow-[0_0_15px_rgba(249,115,22,0.3)] cursor-pointer">
                         <i data-lucide="search" class="w-3.5 h-3.5"></i>
                         รายละเอียด
                     </button>
@@ -380,11 +439,11 @@
             // Badges in Modal
             const badgeContainer = document.getElementById('modalBadges');
             badgeContainer.innerHTML = item.cats.map(c => {
-                 let colorClass = 'bg-slate-100 text-slate-600';
-                if(c.includes('ลดเวลางาน')) colorClass = 'bg-blue-100 text-blue-700';
-                if(c.includes('ปลอดภัย')) colorClass = 'bg-emerald-100 text-emerald-700';
-                if(c.includes('ยอดขาย')) colorClass = 'bg-rose-100 text-rose-700';
-                if(c.includes('คุณภาพ')) colorClass = 'bg-indigo-100 text-indigo-700';
+                let colorClass = 'bg-white/10 text-slate-300 border border-white/20';
+                if(c.includes('ลดเวลางาน')) colorClass = 'bg-orange-500/20 text-orange-400 border border-orange-500/40 shadow-[0_0_8px_rgba(249,115,22,0.2)]';
+                if(c.includes('ปลอดภัย')) colorClass = 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-[0_0_8px_rgba(16,185,129,0.2)]';
+                if(c.includes('ยอดขาย')) colorClass = 'bg-blue-500/20 text-blue-400 border border-blue-500/40 shadow-[0_0_8px_rgba(59,130,246,0.2)]';
+                if(c.includes('คุณภาพ')) colorClass = 'bg-purple-500/20 text-purple-400 border border-purple-500/40 shadow-[0_0_8px_rgba(168,85,247,0.2)]';
                 return `<span class="px-3 py-1 rounded-full text-xs font-bold ${colorClass}">${c}</span>`;
             }).join('');
 
@@ -405,11 +464,13 @@
         // Close on overlay click
         modalOverlay.addEventListener('click', closeModal);
 
-        // --- 4. กราฟ (Charts) - อัปเดตข้อมูลของเดือนกุมภาพันธ์ ---
+        // --- 4. กราฟ (Charts) - Dark Mode Style ---
         window.onload = function() {
             lucide.createIcons();
+            
+            // Global Chart config for dark mode
             Chart.defaults.font.family = "'Kanit', sans-serif";
-            Chart.defaults.color = '#64748b';
+            Chart.defaults.color = '#94a3b8';
 
             // วิเคราะห์และนับจำนวน Category
             const catCounts = { 'เพิ่มคุณภาพ': 0, 'ลดเวลางาน': 0, 'เพิ่มยอดขาย': 0, 'ความปลอดภัย': 0, 'ลดต้นทุน': 0 };
@@ -419,6 +480,7 @@
                 });
             });
 
+            // Dark Mode Bar Chart
             new Chart(document.getElementById('objectiveChart'), {
                 type: 'bar',
                 data: {
@@ -426,8 +488,21 @@
                     datasets: [{
                         label: 'จำนวนหัวข้อ',
                         data: [catCounts['เพิ่มคุณภาพ'], catCounts['ลดเวลางาน'], catCounts['เพิ่มยอดขาย'], catCounts['ความปลอดภัย'], catCounts['ลดต้นทุน']],
-                        backgroundColor: ['#6366f1', '#3b82f6', '#f43f5e', '#10b981', '#f59e0b'],
-                        borderRadius: 6
+                        backgroundColor: [
+                            'rgba(168, 85, 247, 0.8)', // Purple
+                            'rgba(249, 115, 22, 0.8)', // Orange
+                            'rgba(59, 130, 246, 0.8)', // Blue
+                            'rgba(16, 185, 129, 0.8)', // Emerald
+                            'rgba(234, 179, 8, 0.8)'   // Yellow
+                        ],
+                        borderColor: [
+                            '#a855f7', '#f97316', '#3b82f6', '#10b981', '#eab308'
+                        ],
+                        borderWidth: 1,
+                        borderRadius: 6,
+                        hoverBackgroundColor: [
+                            '#a855f7', '#f97316', '#3b82f6', '#10b981', '#eab308'
+                        ]
                     }]
                 },
                 options: {
@@ -436,8 +511,14 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        x: { grid: { display: false }, ticks: { stepSize: 1, precision: 0 } },
-                        y: { grid: { display: false } }
+                        x: { 
+                            grid: { color: 'rgba(255, 255, 255, 0.05)', drawBorder: false }, 
+                            ticks: { stepSize: 1, precision: 0, color: '#94a3b8' } 
+                        },
+                        y: { 
+                            grid: { display: false, drawBorder: false },
+                            ticks: { color: '#cbd5e1' }
+                        }
                     }
                 }
             });
@@ -450,28 +531,38 @@
                 else store++;
             });
 
+            // Dark Mode Doughnut Chart
             new Chart(document.getElementById('locationChart'), {
                 type: 'doughnut',
                 data: {
                     labels: ['สำนักงาน', 'คลังสินค้า/โกดัง', 'หน้าร้าน/ปฏิบัติการ'],
                     datasets: [{
                         data: [office, warehouse, store],
-                        backgroundColor: ['#6366f1', '#3b82f6', '#f43f5e'],
-                        borderWidth: 0
+                        backgroundColor: ['#a855f7', '#3b82f6', '#f97316'],
+                        borderColor: '#0b1121', // Match background color for gap effect
+                        borderWidth: 2,
+                        hoverOffset: 4
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    cutout: '70%',
-                    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } } }
+                    cutout: '75%',
+                    plugins: { 
+                        legend: { 
+                            position: 'bottom', 
+                            labels: { 
+                                usePointStyle: true, 
+                                padding: 20,
+                                color: '#cbd5e1'
+                            } 
+                        } 
+                    }
                 }
             });
         };
     </script>
-    <a href="index.html" style="position: fixed; bottom: 20px; right: 20px; background-color: #198754; color: white; padding: 10px 20px; text-decoration: none; border-radius: 30px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); z-index: 9999;">
+        <a href="index.html" style="position: fixed; bottom: 20px; right: 20px; background-color: #198754; color: white; padding: 10px 20px; text-decoration: none; border-radius: 30px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); z-index: 9999;">
     ⟲ กลับหน้าหลัก
-</a>
 </body>
-
 </html>
