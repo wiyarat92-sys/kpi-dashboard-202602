@@ -1,0 +1,327 @@
+import React, { useState } from 'react';
+import { 
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
+  PieChart, Pie, Cell, LineChart, Line
+} from 'recharts';
+import { 
+  Package, 
+  CheckCircle, 
+  AlertTriangle, 
+  Clock, 
+  Calendar,
+  Truck,
+  TrendingUp,
+  TrendingDown,
+  Box,
+  Lightbulb
+} from 'lucide-react';
+
+// --- ข้อมูลเดือนกุมภาพันธ์ (ปัจจุบัน) ---
+const febData = {
+  totalOrders: 562,
+  within3Days: 469,
+  within3DaysPercent: 83.45,
+  over3Days: 93,
+  over3DaysPercent: 16.55,
+  day1: 200,
+  day2: 153, 
+  day3: 116, 
+  qtyFulfillmentPercent: 97.42,
+  qtyOrdered: 4186,
+  qtyDelivered: 4078
+};
+
+// --- ข้อมูลเดือนมกราคม (เปรียบเทียบ) ---
+const janData = {
+  totalOrders: 665,
+  within3DaysPercent: 84.36,
+  over3DaysPercent: 15.64,
+  qtyFulfillmentPercent: 96.43,
+  qtyOrdered: 5297,
+  qtyDelivered: 5108,
+  avgTime: 2.31,
+  maxTime: 9,
+  day1: 221,
+  day2: 191,
+  day3: 149,
+  over3Days: 104
+};
+
+// ข้อมูลสำหรับกราฟเปรียบเทียบระยะเวลาจัดส่ง (ม.ค. vs ก.พ.)
+const comparisonData = [
+  { name: '1 วัน', มกราคม: janData.day1, กุมภาพันธ์: febData.day1 },
+  { name: '2 วัน', มกราคม: janData.day2, กุมภาพันธ์: febData.day2 },
+  { name: '3 วัน', มกราคม: janData.day3, กุมภาพันธ์: febData.day3 },
+  { name: 'เกิน 3 วัน', มกราคม: janData.over3Days, กุมภาพันธ์: febData.over3Days },
+];
+
+// ข้อมูลจำลองสำหรับกราฟแท่งรายสัปดาห์ (กระจายจาก 562 รายการ)
+const weeklyData = [
+  { name: 'สัปดาห์ที่ 1', withinSLA: 110, overSLA: 25 },
+  { name: 'สัปดาห์ที่ 2', withinSLA: 125, overSLA: 20 },
+  { name: 'สัปดาห์ที่ 3', withinSLA: 115, overSLA: 30 },
+  { name: 'สัปดาห์ที่ 4', withinSLA: 119, overSLA: 18 },
+];
+
+// ข้อมูลจำลองสำหรับตารางรายการจัดส่งล่าสุด
+const recentDeliveries = [
+  { id: '1', orderDate: '26 ก.พ. 26', actualDate: '2 มี.ค. 26', duration: 3, customer: 'ร้านท่าคันโทโลหะศรีธาตุ', qty: 5, status: 'ตามกำหนด' },
+  { id: '2', orderDate: '26 ก.พ. 26', actualDate: '2 มี.ค. 26', duration: 3, customer: 'ร้านวิชัยวัสดุก่อสร้าง', qty: 5, status: 'ตามกำหนด' },
+  { id: '3', orderDate: '27 ก.พ. 26', actualDate: '2 มี.ค. 26', duration: 2, customer: 'ร้านส.เจริญรุ่ง', qty: 5, status: 'ตามกำหนด' },
+];
+
+const KPICard = ({ title, value, subtitle, icon, colorClass, bgColorClass, trendDirection, trendColor, trendValue, trendLabel }) => (
+  <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 flex flex-col justify-between">
+    <div className="flex items-center mb-3">
+      <div className={`p-3 rounded-full ${bgColorClass} ${colorClass} mr-4`}>
+        {icon}
+      </div>
+      <div>
+        <p className="text-sm font-medium text-gray-500">{title}</p>
+        <h3 className="text-2xl font-bold text-gray-800">{value}</h3>
+      </div>
+    </div>
+    <div className="flex items-center justify-between mt-1 text-sm">
+      <p className="text-gray-500">{subtitle}</p>
+      {trendDirection && (
+        <div className={`flex items-center font-medium ${trendColor === 'green' ? 'text-green-600' : 'text-red-600'}`}>
+          {trendDirection === 'up' ? <TrendingUp size={16} className="mr-1" /> : <TrendingDown size={16} className="mr-1" />}
+          {trendValue} <span className="text-gray-400 ml-1 font-normal">{trendLabel}</span>
+        </div>
+      )}
+    </div>
+  </div>
+);
+
+export default function App() {
+  return (
+    <div className="min-h-screen bg-slate-50 p-6 font-sans">
+      {/* Header Section */}
+      <div className="max-w-7xl mx-auto mb-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-800">Dashboard สรุปการส่งมอบสินค้า</h1>
+            <p className="text-slate-500 mt-1 flex items-center">
+              <span className="font-semibold text-blue-600 mr-2">บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด</span> 
+              | ประจำเดือนกุมภาพันธ์
+            </p>
+          </div>
+          <div className="mt-4 md:mt-0 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-100 flex items-center text-sm text-gray-600">
+            <Calendar className="w-4 h-4 mr-2 text-blue-500" />
+            ข้อมูลล่าสุด: 28 กุมภาพันธ์
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto space-y-6">
+    
+    {/* KPI Cards */}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <KPICard 
+        title="จำนวนจัดส่งทั้งหมด" 
+        value={`${febData.totalOrders} รายการ`} 
+        subtitle="ยอดจัดส่ง ก.พ."
+        icon={<Package size={24} />}
+        colorClass="text-blue-600"
+        bgColorClass="bg-blue-50"
+        trendDirection={febData.totalOrders > janData.totalOrders ? 'up' : 'down'}
+        trendColor={febData.totalOrders > janData.totalOrders ? 'green' : 'red'}
+        trendValue={`${Math.abs(febData.totalOrders - janData.totalOrders)}`}
+        trendLabel="จาก ม.ค."
+      />
+      <KPICard 
+        title="ส่งมอบใน 3 วัน (SLA)" 
+        value={`${febData.within3DaysPercent}%`} 
+        subtitle={`จำนวน ${febData.within3Days} รายการ`}
+        icon={<CheckCircle size={24} />}
+        colorClass="text-emerald-600"
+        bgColorClass="bg-emerald-50"
+        trendDirection={febData.within3DaysPercent >= janData.within3DaysPercent ? 'up' : 'down'}
+        trendColor={febData.within3DaysPercent >= janData.within3DaysPercent ? 'green' : 'red'}
+        trendValue={`${Math.abs(febData.within3DaysPercent - janData.within3DaysPercent).toFixed(2)}%`}
+        trendLabel="จาก ม.ค."
+      />
+      <KPICard 
+        title="ความสำเร็จจำนวนสินค้า" 
+        value={`${febData.qtyFulfillmentPercent}%`} 
+        subtitle={`ส่งได้ ${febData.qtyDelivered}/${febData.qtyOrdered} ชิ้น`}
+        icon={<Box size={24} />}
+        colorClass="text-indigo-600"
+        bgColorClass="bg-indigo-50"
+        trendDirection={febData.qtyFulfillmentPercent >= janData.qtyFulfillmentPercent ? 'up' : 'down'}
+        trendColor={febData.qtyFulfillmentPercent >= janData.qtyFulfillmentPercent ? 'green' : 'red'}
+        trendValue={`${Math.abs(febData.qtyFulfillmentPercent - janData.qtyFulfillmentPercent).toFixed(2)}%`}
+        trendLabel="จาก ม.ค."
+      />
+      <KPICard 
+        title="ส่งมอบเกิน 3 วัน (ล่าช้า)" 
+        value={`${febData.over3DaysPercent}%`} 
+        subtitle={`จำนวน ${febData.over3Days} รายการ`}
+        icon={<AlertTriangle size={24} />}
+        colorClass="text-red-600"
+        bgColorClass="bg-red-50"
+        trendDirection={febData.over3DaysPercent > janData.over3DaysPercent ? 'up' : 'down'}
+        trendColor={febData.over3DaysPercent < janData.over3DaysPercent ? 'green' : 'red'}
+        trendValue={`${Math.abs(febData.over3DaysPercent - janData.over3DaysPercent).toFixed(2)}%`}
+        trendLabel="จาก ม.ค."
+      />
+    </div>
+
+    {/* Charts Section */}
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      
+      {/* Comparison Bar Chart: เปรียบเทียบระยะเวลาจัดส่ง */}
+      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center justify-between">
+          <span className="flex items-center">
+            <Truck className="w-5 h-5 mr-2 text-gray-400" />
+            เปรียบเทียบระยะเวลาจัดส่ง (ม.ค. vs ก.พ.)
+          </span>
+        </h3>
+        <div className="h-64">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={comparisonData}
+              margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+              <XAxis dataKey="name" axisLine={false} tickLine={false} />
+              <YAxis axisLine={false} tickLine={false} />
+              <Tooltip 
+                cursor={{fill: '#f8fafc'}}
+                contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+              />
+              <Legend />
+              <Bar dataKey="มกราคม" fill="#94a3b8" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="กุมภาพันธ์" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Bar Chart: แนวโน้มการจัดส่งรายสัปดาห์ */}
+      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
+          <Calendar className="w-5 h-5 mr-2 text-gray-400" />
+          แนวโน้มการจัดส่งรายสัปดาห์ ก.พ. (SLA 3 วัน)
+        </h3>
+        <div className="h-64">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={weeklyData}
+              margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+              <XAxis dataKey="name" axisLine={false} tickLine={false} />
+              <YAxis axisLine={false} tickLine={false} />
+              <Tooltip 
+                cursor={{fill: '#f8fafc'}}
+                contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+              />
+              <Legend />
+              <Bar dataKey="withinSLA" name="ภายใน 3 วัน (ตามเป้า)" stackId="a" fill="#10b981" radius={[0, 0, 4, 4]} />
+              <Bar dataKey="overSLA" name="เกิน 3 วัน (ล่าช้า)" stackId="a" fill="#ef4444" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+    </div>
+
+    {/* Recommendations Section */}
+    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl shadow-sm border border-blue-100 p-6">
+      <h3 className="text-lg font-bold text-blue-900 mb-5 flex items-center">
+        <Lightbulb className="w-6 h-6 mr-2 text-yellow-500 fill-yellow-100" />
+        ข้อเสนอแนะเชิงกลยุทธ์จากข้อมูล (Key Recommendations)
+      </h3>
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* ข้อ 1 */}
+        <div className="bg-white/80 backdrop-blur-sm p-5 rounded-lg border border-blue-50 hover:shadow-md transition-shadow">
+          <div className="flex items-center mb-3">
+            <div className="bg-red-100 p-2 rounded-full mr-3">
+              <AlertTriangle className="w-4 h-4 text-red-600" />
+            </div>
+            <h4 className="font-semibold text-gray-800 text-sm">วิเคราะห์สาเหตุที่ทำให้ล่าช้า</h4>
+          </div>
+          <p className="text-sm text-gray-600 leading-relaxed">
+            อัตราการส่งมอบล่าช้า (เกิน 3 วัน) เพิ่มขึ้นจากเดือน ม.ค. เล็กน้อย (16.55%) 
+            ทีมงานควรเจาะลึกหาสาเหตุของ <b>93 รายการ</b> ที่ล่าช้า ว่ามาจากกระบวนการใด เช่น รถขนส่งไม่พอ, การประสานงาน, หรือลูกค้าเลื่อนรับของ
+          </p>
+        </div>
+
+        {/* ข้อ 2 */}
+        <div className="bg-white/80 backdrop-blur-sm p-5 rounded-lg border border-blue-50 hover:shadow-md transition-shadow">
+          <div className="flex items-center mb-3">
+            <div className="bg-green-100 p-2 rounded-full mr-3">
+              <CheckCircle className="w-4 h-4 text-green-600" />
+            </div>
+            <h4 className="font-semibold text-gray-800 text-sm">รักษามาตรฐาน Qty Fulfillment</h4>
+          </div>
+          <p className="text-sm text-gray-600 leading-relaxed">
+            อัตราการส่งมอบสินค้าครบถ้วนทำได้ดีมากที่ <b>97.42%</b> (เติบโตจาก 96.43%) 
+            แสดงถึงการจัดการสต็อกและคลังสินค้าที่มีประสิทธิภาพ ควรนำแนวทางของเดือนนี้ไปเป็นมาตรฐาน (Best Practice) ในเดือนต่อๆ ไป
+          </p>
+        </div>
+
+        {/* ข้อ 3 */}
+        <div className="bg-white/80 backdrop-blur-sm p-5 rounded-lg border border-blue-50 hover:shadow-md transition-shadow">
+          <div className="flex items-center mb-3">
+            <div className="bg-blue-100 p-2 rounded-full mr-3">
+              <Clock className="w-4 h-4 text-blue-600" />
+            </div>
+            <h4 className="font-semibold text-gray-800 text-sm">เพิ่มระบบแจ้งเตือน (Early Warning)</h4>
+          </div>
+          <p className="text-sm text-gray-600 leading-relaxed">
+            กว่า 61.9% ของออเดอร์ สามารถส่งได้ภายใน 1-2 วัน เพื่อป้องกันของค้างจนเกิน 3 วัน 
+            ควรตั้ง Alert ให้พนักงานเร่งติดตามงานที่ค้างอยู่ในระบบเกิน <b>48 ชั่วโมง</b> ก่อนที่จะหลุด SLA
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {/* Data Table Section */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="px-6 py-5 border-b border-gray-100 flex justify-between items-center">
+            <h3 className="text-lg font-bold text-gray-800">ตัวอย่างรายการจัดส่งล่าสุด</h3>
+            <button className="text-sm text-blue-600 hover:text-blue-800 font-medium">ดูรายงานฉบับเต็ม</button>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-gray-50 text-gray-500 text-sm">
+                  <th className="px-6 py-3 font-medium">ลำดับ</th>
+                  <th className="px-6 py-3 font-medium">วันที่สั่ง</th>
+                  <th className="px-6 py-3 font-medium">วันที่ส่งจริง</th>
+                  <th className="px-6 py-3 font-medium">ระยะเวลา</th>
+                  <th className="px-6 py-3 font-medium">ชื่อลูกค้า / บริษัท</th>
+                  <th className="px-6 py-3 font-medium text-center">สถานะ</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 text-sm">
+                {recentDeliveries.map((item) => (
+                  <tr key={item.id} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-6 py-4 text-gray-500">{item.id}</td>
+                    <td className="px-6 py-4 text-gray-800">{item.orderDate}</td>
+                    <td className="px-6 py-4 text-gray-800">{item.actualDate}</td>
+                    <td className="px-6 py-4 font-medium text-gray-800">{item.duration} วัน</td>
+                    <td className="px-6 py-4 text-gray-800">{item.customer}</td>
+                    <td className="px-6 py-4 text-center">
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                        item.status === 'ตามกำหนด' 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-red-100 text-red-800'
+                      }`}>
+                        {item.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}

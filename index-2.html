@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KPI Dashboard 2026 - พัฒนาสิน ไทยเทรดดิ้ง (Dark Edition)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Prompt -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { 
+            font-family: 'Prompt', sans-serif; 
+            background-color: #020617; /* Deepest Navy */
+            color: #f1f5f9;
+        }
+        .glass-card { 
+            background: rgba(15, 23, 42, 0.6); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover { 
+            transform: translateY(-5px); 
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        .table-row-dark:hover {
+            background-color: rgba(30, 41, 59, 0.8);
+        }
+        /* Custom Scrollbar for Dark Theme */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navbar/Header -->
+    <nav class="bg-slate-900/80 border-b border-blue-900/50 text-white p-4 sticky top-0 z-50 backdrop-blur-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <div class="bg-blue-600 text-white font-bold p-2 rounded-lg flex items-center justify-center w-10 h-10 text-xl shadow-[0_0_15px_rgba(37,99,235,0.4)]">
+                    P
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">ระบบติดตามผลการดำเนินงาน 2026</h1>
+                    <p class="text-xs text-blue-400 font-medium uppercase tracking-widest">บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด</p>
+                </div>
+            </div>
+            <div class="hidden sm:flex text-sm bg-blue-900/40 px-4 py-2 rounded-full border border-blue-500/30 text-blue-200">
+                <i class="fa-regular fa-calendar-alt mr-2 mt-0.5"></i> อัปเดตล่าสุด: กุมภาพันธ์ 2026
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-4 lg:p-8">
+        
+        <!-- Summary Cards (Top Level KPIs) -->
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-semibold text-blue-100 flex items-center">
+                <span class="w-2 h-8 bg-blue-500 rounded-full mr-3"></span>
+                ภาพรวมดัชนีชี้วัดหลัก (YTD Performance)
+            </h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            
+            <!-- Card 1: Sales -->
+            <div class="glass-card rounded-2xl p-6 border-l-4 border-l-red-500 relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 text-7xl text-blue-500 opacity-5"><i class="fa-solid fa-chart-line"></i></div>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">ยอดขายสะสม</p>
+                <h3 class="text-3xl font-black text-white mt-1">22.72 <span class="text-sm font-normal text-slate-500 italic ml-1">ลบ.</span></h3>
+                <div class="mt-4 flex items-center text-xs font-semibold text-red-400 bg-red-400/10 px-2 py-1 rounded w-fit">
+                    <i class="fa-solid fa-arrow-trend-down mr-1.5"></i> ต่ำกว่าเป้าหมาย
+                </div>
+                <p class="mt-2 text-[10px] text-slate-500 italic">เป้าหมาย: 29.00 ลบ. (ม.ค.-ก.พ.)</p>
+            </div>
+
+            <!-- Card 2: Profit -->
+            <div class="glass-card rounded-2xl p-6 border-l-4 border-l-emerald-500 relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 text-7xl text-blue-500 opacity-5"><i class="fa-solid fa-coins"></i></div>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">กำไรสุทธิ</p>
+                <h3 class="text-3xl font-black text-white mt-1">2.11%</h3>
+                <div class="mt-4 flex items-center text-xs font-semibold text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded w-fit">
+                    <i class="fa-solid fa-circle-check mr-1.5"></i> สูงกว่าเกณฑ์
+                </div>
+                <p class="mt-2 text-[10px] text-slate-500 italic">เป้าหมาย: มากกว่า 1.00%</p>
+            </div>
+
+            <!-- Card 3: Delivery -->
+            <div class="glass-card rounded-2xl p-6 border-l-4 border-l-orange-500 relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 text-7xl text-blue-500 opacity-5"><i class="fa-solid fa-truck-fast"></i></div>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">การส่งมอบ (3 วัน)</p>
+                <h3 class="text-3xl font-black text-white mt-1">83.94%</h3>
+                <div class="mt-4 flex items-center text-xs font-semibold text-orange-400 bg-orange-400/10 px-2 py-1 rounded w-fit">
+                    <i class="fa-solid fa-circle-exclamation mr-1.5"></i> ต่ำกว่าเกณฑ์
+                </div>
+                <p class="mt-2 text-[10px] text-slate-500 italic">เป้าหมายสะสม: 95.00%</p>
+            </div>
+
+            <!-- Card 4: Safety -->
+            <div class="glass-card rounded-2xl p-6 border-l-4 border-l-red-600 relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 text-7xl text-blue-500 opacity-5"><i class="fa-solid fa-user-injured"></i></div>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">อุบัติเหตุ (ครั้ง)</p>
+                <h3 class="text-3xl font-black text-white mt-1">1 <span class="text-sm font-normal text-slate-500 italic ml-1">Case</span></h3>
+                <div class="mt-4 flex items-center text-xs font-semibold text-red-500 bg-red-500/20 px-2 py-1 rounded w-fit uppercase">
+                    Critical Level
+                </div>
+                <p class="mt-2 text-[10px] text-slate-500 italic">เป้าหมาย: ต้องเป็น 0 ครั้ง</p>
+            </div>
+        </div>
+
+        <!-- Detailed Table Section -->
+        <div class="glass-card rounded-3xl shadow-2xl overflow-hidden border border-slate-800">
+            <div class="px-8 py-5 border-b border-slate-800 bg-slate-900/50 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <h2 class="text-lg font-bold text-blue-100 flex items-center">
+                    <i class="fa-solid fa-table-list mr-3 text-blue-500"></i>
+                    รายละเอียดผลงานรายตัวชี้วัดปี 2026
+                </h2>
+                <div class="flex space-x-2">
+                    <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                    <span class="w-3 h-3 rounded-full bg-orange-500"></span>
+                    <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left border-collapse">
+                    <thead class="bg-slate-900 text-slate-400 font-bold uppercase text-[10px] tracking-widest">
+                        <tr>
+                            <th class="px-8 py-4 border-b border-slate-800">รายการเป้าหมาย (KPIs)</th>
+                            <th class="px-6 py-4 border-b border-slate-800 text-center">เกณฑ์เป้าหมาย</th>
+                            <th class="px-6 py-4 border-b border-slate-800 text-center">ม.ค. (JAN)</th>
+                            <th class="px-6 py-4 border-b border-slate-800 text-center">ก.พ. (FEB)</th>
+                            <th class="px-6 py-4 border-b border-slate-800 text-center bg-blue-900/20">สรุปสะสม (YTD)</th>
+                            <th class="px-8 py-4 border-b border-slate-800 text-center">สถานะ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="kpiTableBody" class="divide-y divide-slate-800">
+                        <!-- Data Injected Here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="px-8 py-4 bg-slate-900/30 text-[11px] text-slate-500 italic">
+                * ข้อมูลที่แสดงเป็นข้อมูลสรุปเบื้องต้นประจำปีงบประมาณ 2026
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const kpiData = [
+            {
+                name: "1. ยอดขาย (Sales Revenue)",
+                target: "มากกว่า 140 ลบ.",
+                jan: "12,925,623",
+                feb: "9,795,908",
+                ytd: "22,721,531",
+                status: "fail",
+                janStatus: "fail",
+                febStatus: "fail"
+            },
+            {
+                name: "2. ข้อผิดพลาดการจัดส่ง (Shipping Error)",
+                target: "น้อยกว่า 1.50%",
+                jan: "1.35%",
+                feb: "0.89%",
+                ytd: "1.14%",
+                status: "pass",
+                janStatus: "pass",
+                febStatus: "pass"
+            },
+            {
+                name: "3. กำไรสุทธิก่อนภาษี (Net Profit)",
+                target: "มากกว่า 1.00%",
+                jan: "4.77%",
+                feb: "-1.36%",
+                ytd: "2.11%",
+                status: "pass",
+                janStatus: "pass",
+                febStatus: "fail"
+            },
+            {
+                name: "4. สินค้าคงคลังต่อยอดขาย (Inventory Turn)",
+                target: "น้อยกว่า 1.40 เดือน",
+                jan: "1.16",
+                feb: "1.36",
+                ytd: "1.25",
+                status: "pass",
+                janStatus: "pass",
+                febStatus: "pass"
+            },
+            {
+                name: "5. ส่งมอบภายใน 3 วัน (OTD)",
+                target: "มากกว่า 95.00%",
+                jan: "84.36%",
+                feb: "83.45%",
+                ytd: "83.94%",
+                status: "fail",
+                janStatus: "fail",
+                febStatus: "fail"
+            },
+            {
+                name: "6. อุบัติเหตุถึงขั้นหยุดงาน (Safety)",
+                target: "0 ครั้ง",
+                jan: "0",
+                feb: "1",
+                ytd: "1",
+                status: "fail",
+                janStatus: "pass",
+                febStatus: "fail"
+            },
+            {
+                name: "7. อัตราการมาทำงาน (Attendance)",
+                target: "มากกว่า 98.00%",
+                jan: "97.44%",
+                feb: "98.21%",
+                ytd: "97.81%",
+                status: "warning",
+                janStatus: "fail",
+                febStatus: "pass"
+            },
+            {
+                name: "8. พนักงานส่งไคเซ็น (Kaizen)",
+                target: "มากกว่า 5 หัวข้อ",
+                jan: "7",
+                feb: "3",
+                ytd: "5",
+                status: "warning",
+                janStatus: "pass",
+                febStatus: "fail"
+            }
+        ];
+
+        function getStatusIcon(status) {
+            if(status === 'pass') return '<span class="text-emerald-400 bg-emerald-400/10 px-3 py-1 rounded-full text-[10px] font-bold border border-emerald-400/30 uppercase"><i class="fa-solid fa-check mr-1.5"></i>Success</span>';
+            if(status === 'fail') return '<span class="text-red-400 bg-red-400/10 px-3 py-1 rounded-full text-[10px] font-bold border border-red-400/30 uppercase"><i class="fa-solid fa-xmark mr-1.5"></i>Failed</span>';
+            return '<span class="text-orange-400 bg-orange-400/10 px-3 py-1 rounded-full text-[10px] font-bold border border-orange-400/30 uppercase"><i class="fa-solid fa-triangle-exclamation mr-1.5"></i>Warning</span>';
+        }
+
+        function getTextClass(status) {
+            if(status === 'pass') return 'text-emerald-400 font-medium';
+            if(status === 'fail') return 'text-red-400 font-bold';
+            return 'text-orange-400 font-medium';
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('kpiTableBody');
+            tbody.innerHTML = kpiData.map(item => `
+                <tr class="table-row-dark transition-all duration-200">
+                    <td class="px-8 py-5 text-blue-100 font-medium">${item.name}</td>
+                    <td class="px-6 py-5 text-center text-slate-500 font-light italic">${item.target}</td>
+                    <td class="px-6 py-5 text-center ${getTextClass(item.janStatus)}">${item.jan}</td>
+                    <td class="px-6 py-5 text-center ${getTextClass(item.febStatus)}">${item.feb}</td>
+                    <td class="px-6 py-5 text-center font-bold bg-blue-900/10 ${getTextClass(item.status)}">${item.ytd}</td>
+                    <td class="px-8 py-5 text-center">${getStatusIcon(item.status)}</td>
+                </tr>
+            `).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', renderTable);
+    </script>
+</body>
+</html>

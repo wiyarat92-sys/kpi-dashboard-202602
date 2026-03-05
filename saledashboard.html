@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สรุปยอดขาย ก.พ. เทียบ ม.ค. - บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Font: Sarabun -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Sarabun', sans-serif; background-color: #f8fafc; }
+        .transition-all-300 { transition: all 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .bar-anim { transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1); }
+    </style>
+</head>
+<body class="text-slate-800 p-4 md:p-8 min-h-screen">
+
+    <div class="max-w-7xl mx-auto">
+        
+        <!-- Header Section -->
+        <header class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 animate-fade-in">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold text-slate-800 flex items-center gap-3">
+                    <div class="p-2 bg-blue-600 rounded-lg text-white shadow-lg shadow-blue-200">
+                        <i data-lucide="layout-dashboard" class="w-6 h-6 md:w-8 md:h-8"></i>
+                    </div>
+                    บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด
+                </h1>
+                <p class="text-slate-500 mt-2 flex items-center gap-2 text-base md:text-lg">
+                    <i data-lucide="calendar-clock" class="w-5 h-5 text-orange-500"></i> 
+                    ผลการดำเนินงาน ประจำเดือน กุมภาพันธ์ (เปรียบเทียบ มกราคม)
+                </p>
+            </div>
+
+            <!-- Dropdown เลือกสาขา -->
+            <div class="relative w-full md:w-80">
+                <label class="block text-xs font-semibold text-slate-400 uppercase mb-1 ml-1">เลือกรายการ / สาขา</label>
+                <div class="relative">
+                    <select id="branchSelector" class="w-full appearance-none bg-white border border-slate-200 text-slate-700 py-3 px-4 pr-10 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm cursor-pointer transition-all-300 font-medium text-lg">
+                        <option value="all">สรุปยอดขายรวมทั้งหมด</option>
+                        <option value="retail">ขายปลีก</option>
+                        <option value="wholesale">ขายส่ง</option>
+                        <option value="nongkhai">หนองคาย</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
+                        <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- KPI Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 animate-fade-in" style="animation-delay: 0.1s;">
+            
+            <!-- Card 1: Sales Amount -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all-300 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-blue-50 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+                <div class="relative">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="p-2 bg-blue-100 text-blue-600 rounded-lg"><i data-lucide="banknote" class="w-6 h-6"></i></div>
+                        <span id="badgeStatus" class="px-3 py-1 text-xs font-bold rounded-full bg-slate-100 text-slate-500">สถานะ</span>
+                    </div>
+                    <p class="text-slate-500 text-sm font-medium">ยอดขาย ก.พ. (Actual)</p>
+                    <h3 id="displayActual" class="text-3xl font-bold text-slate-800 mt-1">฿0</h3>
+                    
+                    <!-- Comparison Badge -->
+                    <div class="mt-2 flex items-center gap-2">
+                        <div id="momActualBadge" class="flex items-center gap-1 text-sm font-bold px-2 py-1 rounded bg-slate-100 text-slate-600">
+                            - 0%
+                        </div>
+                        <span class="text-xs text-slate-400">เทียบเดือน ม.ค.</span>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-t border-slate-50 flex justify-between items-center">
+                        <span id="displayTargetSmall" class="text-xs text-slate-400">เป้า ก.พ.: ฿0</span>
+                        <div class="flex items-center gap-1 text-sm font-bold text-blue-600">
+                            <span id="displayPercentSmall">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Days Met Target -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all-300 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-50 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+                <div class="relative">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="p-2 bg-emerald-100 text-emerald-600 rounded-lg"><i data-lucide="calendar-check" class="w-6 h-6"></i></div>
+                    </div>
+                    <p class="text-slate-500 text-sm font-medium">จำนวนวันที่ได้ตามเป้า ก.พ.</p>
+                    <h3 class="text-3xl font-bold text-slate-800 mt-1"><span id="displayDays">0</span> <span class="text-lg text-slate-400 font-normal">/ 24 วัน</span></h3>
+                    
+                    <div class="mt-2 flex items-center gap-2">
+                        <div id="momDaysBadge" class="flex items-center gap-1 text-sm font-bold px-2 py-1 rounded bg-slate-100 text-slate-600">
+                            - 0 วัน
+                        </div>
+                        <span class="text-xs text-slate-400">จาก ม.ค. (26 วัน)</span>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-t border-slate-50">
+                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div id="barDays" class="bg-emerald-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
+                        </div>
+                        <p class="text-right text-xs text-emerald-600 font-bold mt-1" id="textDaysPercent">0%</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Daily Target -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all-300 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-orange-50 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+                <div class="relative">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="p-2 bg-orange-100 text-orange-600 rounded-lg"><i data-lucide="target" class="w-6 h-6"></i></div>
+                    </div>
+                    <p class="text-slate-500 text-sm font-medium">ยอดสะสมเป้าหมายต่อวัน ก.พ.</p>
+                    <h3 id="displayDaily" class="text-3xl font-bold text-slate-800 mt-1">฿0</h3>
+                    
+                    <div class="mt-2 flex items-center gap-2">
+                        <div id="momDailyBadge" class="flex items-center gap-1 text-sm font-bold px-2 py-1 rounded bg-slate-100 text-slate-600">
+                            - 0%
+                        </div>
+                        <span class="text-xs text-slate-400">เทียบเป้า ม.ค.</span>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-t border-slate-50 text-xs text-slate-400 flex items-center gap-1">
+                        <i data-lucide="info" class="w-3 h-3"></i> เกณฑ์ขั้นต่ำต่อวัน (คำนวณจาก 24 วันทำงาน)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Area: Comparison Visuals -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-fade-in" style="animation-delay: 0.2s;">
+            
+            <!-- Left Column: Detailed Chart -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-xl text-slate-800 flex items-center gap-2">
+                            <i data-lucide="git-compare" class="text-blue-600"></i>
+                            เปรียบเทียบผลงาน: <span id="currentBranchName" class="text-blue-600">รวมทั้งหมด</span>
+                        </h3>
+                    </div>
+
+                    <!-- Comparison Bars -->
+                    <div class="space-y-6 mb-8">
+                        
+                        <!-- January Bar -->
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="font-bold text-slate-500">มกราคม (26 วันทำงาน)</span>
+                                <span class="text-slate-500 text-xs" id="janLabelTarget">เป้า: 0</span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="flex-grow bg-slate-100 h-6 rounded-r-full overflow-hidden relative border-l-4 border-slate-400">
+                                    <div id="janProgressBar" class="h-full bg-slate-400 flex items-center pr-2 justify-end bar-anim" style="width: 0%">
+                                        <span class="text-white text-[10px] font-bold" id="janPercentText">0%</span>
+                                    </div>
+                                </div>
+                                <div class="w-32 text-right font-bold text-slate-600" id="janLabelActual">฿0</div>
+                            </div>
+                        </div>
+
+                        <!-- February Bar -->
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="font-bold text-orange-600">กุมภาพันธ์ (24 วันทำงาน)</span>
+                                <span class="text-slate-500 text-xs" id="febLabelTarget">เป้า: 0</span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="flex-grow bg-orange-50 h-8 rounded-r-full overflow-hidden relative border-l-4 border-orange-500 shadow-inner">
+                                    <div id="febProgressBar" class="h-full bg-gradient-to-r from-orange-400 to-orange-500 flex items-center pr-2 justify-end shadow-md bar-anim" style="width: 0%">
+                                        <span class="text-white text-xs font-bold" id="febPercentText">0%</span>
+                                    </div>
+                                </div>
+                                <div class="w-32 text-right font-bold text-orange-600 text-lg" id="febLabelActual">฿0</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- System Analysis Box -->
+                    <div class="bg-blue-50 border border-blue-100 rounded-xl p-5 flex gap-4 items-start">
+                        <div class="bg-orange-100 p-2 rounded-full shrink-0">
+                            <i data-lucide="bot" class="text-orange-600 w-5 h-5"></i>
+                        </div>
+                        <div class="w-full">
+                            <h4 class="font-bold text-blue-900 mb-1">วิเคราะห์แนวโน้ม (Trend Analysis)</h4>
+                            <p id="systemInsight" class="text-blue-800/80 text-sm leading-relaxed"></p>
+                            
+                            <!-- Mini Data Grid -->
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4 pt-4 border-t border-blue-100/50 text-center text-xs">
+                                <div>
+                                    <p class="text-blue-500 font-medium mb-0.5">ส่วนต่างยอดขายรวม</p>
+                                    <p id="insightDiff" class="font-bold text-blue-900">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-blue-500 font-medium mb-0.5">ยอดขายเฉลี่ย/วัน (ม.ค.)</p>
+                                    <p id="insightJanDaily" class="font-bold text-blue-900">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-blue-500 font-medium mb-0.5">ยอดขายเฉลี่ย/วัน (ก.พ.)</p>
+                                    <p id="insightFebDaily" class="font-bold text-blue-900">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-blue-500 font-medium mb-0.5">ประสิทธิภาพต่อวัน</p>
+                                    <p id="insightEfficiency" class="font-bold">-</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Branch List -->
+            <div class="lg:col-span-1">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 h-full">
+                    <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i data-lucide="building" class="w-5 h-5 text-slate-400"></i> รายการอื่นๆ (ก.พ.)
+                    </h3>
+                    <div id="branchList" class="space-y-3">
+                        <!-- List items generated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-slate-400 text-sm pb-8">
+            <p>Copyright © 2024 บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด | Sales Dashboard System</p>
+        </footer>
+
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- 1. ข้อมูล (Data Configuration) ---
+        const workingDays = { jan: 26, feb: 24 };
+        
+        const salesData = {
+            all: { 
+                name: 'สรุปยอดขายรวมทั้งหมด',
+                jan: { actual: 12925418, target: 15000000, dailyTarget: 576923, daysMet: 26 },
+                feb: { actual: 9795909, target: 14000000, dailyTarget: 583333, daysMet: 11 }
+            },
+            retail: { 
+                name: 'ขายปลีก', 
+                jan: { actual: 504113, target: 600000, dailyTarget: 23077, daysMet: 4 },
+                feb: { actual: 449752, target: 600000, dailyTarget: 25000, daysMet: 2 }
+            },
+            wholesale: { 
+                name: 'ขายส่ง', 
+                jan: { actual: 11406730, target: 13600000, dailyTarget: 523077, daysMet: 6 },
+                feb: { actual: 8702049, target: 12600000, dailyTarget: 525000, daysMet: 3 }
+            },
+            nongkhai: { 
+                name: 'หนองคาย', 
+                jan: { actual: 1014575, target: 800000, dailyTarget: 30769, daysMet: 16 },
+                feb: { actual: 644108, target: 800000, dailyTarget: 33333, daysMet: 6 }
+            }
+        };
+
+        let currentId = 'all';
+
+        // --- 2. ฟังก์ชันช่วยจัดรูปแบบตัวเลข ---
+        const formatCurrency = (num) => {
+            return new Intl.NumberFormat('th-TH').format(num);
+        };
+
+        // ฟังก์ชันอัปเดต Badge เปรียบเทียบ (MoM)
+        const updateBadge = (elementId, currentValue, previousValue, type = 'percent') => {
+            const el = document.getElementById(elementId);
+            let diff = currentValue - previousValue;
+            
+            if (type === 'percent') {
+                let percent = (diff / previousValue) * 100;
+                if (diff > 0) {
+                    el.innerHTML = `<i data-lucide="trending-up" class="w-3 h-3"></i> +${percent.toFixed(1)}%`;
+                    el.className = "flex items-center gap-1 text-sm font-bold px-2 py-1 rounded bg-emerald-100 text-emerald-700";
+                } else if (diff < 0) {
+                    el.innerHTML = `<i data-lucide="trending-down" class="w-3 h-3"></i> ${percent.toFixed(1)}%`;
+                    el.className = "flex items-center gap-1 text-sm font-bold px-2 py-1 rounded bg-rose-100 text-rose-700";
+                } else {
+                    el.innerHTML = `<i data-lucide="minus" class="w-3 h-3"></i> 0%`;
+                    el.className = "flex items-center gap-1 text-sm font-bold px-2 py-1 rounded bg-slate-100 text-slate-600";
+                }
+            } else if (type === 'days') {
+                if (diff > 0) {
+                    el.innerHTML = `<i data-lucide="arrow-up" class="w-3 h-3"></i> เพิ่มขึ้น ${diff} วัน`;
+                    el.className = "flex items-center gap-1 text-sm font-bold px-2 py-1 rounded bg-emerald-100 text-emerald-700";
+                } else if (diff < 0) {
+                    el.innerHTML = `<i data-lucide="arrow-down" class="w-3 h-3"></i> ลดลง ${Math.abs(diff)} วัน`;
+                    el.className = "flex items-center gap-1 text-sm font-bold px-2 py-1 rounded bg-rose-100 text-rose-700";
+                } else {
+                    el.innerHTML = `<i data-lucide="minus" class="w-3 h-3"></i> เท่าเดิม`;
+                    el.className = "flex items-center gap-1 text-sm font-bold px-2 py-1 rounded bg-slate-100 text-slate-600";
+                }
+            }
+        };
+
+        // --- 3. ฟังก์ชันหลักในการแสดงผล ---
+        function updateDashboard() {
+            const data = salesData[currentId];
+            if (!data) return;
+
+            const jan = data.jan;
+            const feb = data.feb;
+
+            // การคำนวณ % ก.พ.
+            const febPercent = (feb.actual / feb.target) * 100;
+            const janPercent = (jan.actual / jan.target) * 100;
+            const febDaysPercent = (feb.daysMet / workingDays.feb) * 100;
+
+            // --- 1. อัปเดตการ์ดด้านบน (เน้นข้อมูล ก.พ.) ---
+            document.getElementById('currentBranchName').innerText = data.name;
+            document.getElementById('displayActual').innerText = `฿${formatCurrency(feb.actual)}`;
+            document.getElementById('displayTargetSmall').innerText = `เป้า ก.พ.: ฿${formatCurrency(feb.target)}`;
+            document.getElementById('displayPercentSmall').innerText = `${febPercent.toFixed(1)}%`;
+            document.getElementById('displayDaily').innerText = `฿${formatCurrency(feb.dailyTarget)}`;
+            document.getElementById('displayDays').innerText = feb.daysMet;
+            
+            // อัปเดต Badges เปรียบเทียบ
+            updateBadge('momActualBadge', feb.actual, jan.actual, 'percent');
+            updateBadge('momDaysBadge', feb.daysMet, jan.daysMet, 'days');
+            updateBadge('momDailyBadge', feb.dailyTarget, jan.dailyTarget, 'percent'); 
+
+            // Badge สถานะความสำเร็จของ ก.พ.
+            const badgeEl = document.getElementById('badgeStatus');
+            if (febPercent >= 100) {
+                badgeEl.className = 'px-3 py-1 text-xs font-bold rounded-full bg-emerald-100 text-emerald-700 flex items-center gap-1';
+                badgeEl.innerHTML = '<i data-lucide="check-circle" class="w-3 h-3"></i> ถึงเป้าหมาย';
+            } else {
+                badgeEl.className = 'px-3 py-1 text-xs font-bold rounded-full bg-orange-100 text-orange-700 flex items-center gap-1';
+                badgeEl.innerHTML = '<i data-lucide="activity" class="w-3 h-3"></i> ต่ำกว่าเป้า';
+            }
+
+            // Progress Bar (จำนวนวัน ก.พ.)
+            document.getElementById('barDays').style.width = `${febDaysPercent}%`;
+            document.getElementById('textDaysPercent').innerText = `${febDaysPercent.toFixed(0)}%`;
+
+            // --- 2. อัปเดตกราฟเปรียบเทียบแนวนอน (Jan vs Feb) ---
+            document.getElementById('janLabelTarget').innerText = `เป้า: ฿${formatCurrency(jan.target)}`;
+            document.getElementById('janLabelActual').innerText = `฿${formatCurrency(jan.actual)}`;
+            document.getElementById('janPercentText').innerText = `${janPercent.toFixed(1)}%`;
+            document.getElementById('janProgressBar').style.width = `${Math.min(janPercent, 100)}%`;
+
+            document.getElementById('febLabelTarget').innerText = `เป้า: ฿${formatCurrency(feb.target)}`;
+            document.getElementById('febLabelActual').innerText = `฿${formatCurrency(feb.actual)}`;
+            document.getElementById('febPercentText').innerText = `${febPercent.toFixed(1)}%`;
+            
+            const febBar = document.getElementById('febProgressBar');
+            febBar.style.width = `${Math.min(febPercent, 100)}%`;
+            
+            // เปลี่ยนสีกราฟ ก.พ. ตามความสำเร็จ
+            if (febPercent >= 100) {
+                febBar.className = 'h-full bg-gradient-to-r from-emerald-400 to-emerald-500 flex items-center pr-2 justify-end shadow-md bar-anim';
+            } else {
+                febBar.className = 'h-full bg-gradient-to-r from-orange-400 to-orange-500 flex items-center pr-2 justify-end shadow-md bar-anim';
+            }
+
+            // --- 3. วิเคราะห์แนวโน้ม (Insight) ---
+            const insightEl = document.getElementById('systemInsight');
+            const avgJanDaily = jan.actual / workingDays.jan;
+            const avgFebDaily = feb.actual / workingDays.feb;
+            const diffDaily = avgFebDaily - avgJanDaily;
+            const diffDailyPercent = (diffDaily / avgJanDaily) * 100;
+            const actualDiff = feb.actual - jan.actual;
+
+            let insightText = "";
+            if (febPercent >= 100) {
+                insightText = `ยอดเยี่ยม! ผลงานเดือนกุมภาพันธ์สามารถทำทะลุเป้าหมายที่ตั้งไว้ได้สำเร็จ (${febPercent.toFixed(1)}%) `;
+            } else {
+                insightText = `เดือนกุมภาพันธ์ยอดขายยังไม่ถึงเป้าหมายที่ตั้งไว้ (${febPercent.toFixed(1)}%) `;
+            }
+
+            if (diffDaily > 0) {
+                insightText += `อย่างไรก็ตาม เมื่อพิจารณาจากค่าเฉลี่ยต่อวันทำงาน พบว่าประสิทธิภาพการขาย **ดีขึ้น ${diffDailyPercent.toFixed(1)}%** เมื่อเทียบกับเดือนมกราคม ถือว่ามีแนวโน้มที่ดีขึ้น`;
+            } else {
+                insightText += `และเมื่อเทียบค่าเฉลี่ยต่อวันทำงาน พบว่าประสิทธิภาพการขาย **ลดลง ${Math.abs(diffDailyPercent).toFixed(1)}%** เมื่อเทียบกับมกราคม จำเป็นต้องปรับกลยุทธ์เพื่อกระตุ้นยอดขายในเดือนถัดไป`;
+            }
+            
+            insightEl.innerHTML = insightText;
+
+            // Mini Data Grid
+            const insightDiffEl = document.getElementById('insightDiff');
+            insightDiffEl.innerText = actualDiff > 0 ? `+฿${formatCurrency(actualDiff)}` : `-฿${formatCurrency(Math.abs(actualDiff))}`;
+            insightDiffEl.className = actualDiff > 0 ? "font-bold text-emerald-600" : "font-bold text-rose-600";
+            
+            document.getElementById('insightJanDaily').innerText = `฿${formatCurrency(avgJanDaily)}`;
+            document.getElementById('insightFebDaily').innerText = `฿${formatCurrency(avgFebDaily)}`;
+            
+            const efficiencyEl = document.getElementById('insightEfficiency');
+            efficiencyEl.innerText = diffDaily > 0 ? `+${diffDailyPercent.toFixed(1)}%` : `${diffDailyPercent.toFixed(1)}%`;
+            efficiencyEl.className = diffDaily > 0 ? "font-bold text-emerald-600" : "font-bold text-rose-600";
+
+            lucide.createIcons();
+            renderBranchList();
+        }
+
+        // --- 4. Render Menu (แสดงข้อมูล ก.พ.) ---
+        function renderBranchList() {
+            const container = document.getElementById('branchList');
+            container.innerHTML = ''; 
+
+            Object.keys(salesData).forEach(id => {
+                if (id === 'all') return;
+                const item = salesData[id];
+
+                const febP = (item.feb.actual / item.feb.target) * 100;
+                const isActive = currentId === id;
+                
+                const div = document.createElement('div');
+                div.className = `p-3 rounded-xl border cursor-pointer transition-all flex justify-between items-center group ${isActive ? 'bg-orange-50 border-orange-200 ring-1 ring-orange-300' : 'bg-white border-slate-100 hover:border-orange-200'}`;
+                div.onclick = () => {
+                    currentId = id;
+                    document.getElementById('branchSelector').value = id;
+                    updateDashboard();
+                };
+
+                div.innerHTML = `
+                    <div>
+                        <div class="font-bold text-sm ${isActive ? 'text-orange-700' : 'text-slate-700'}">${item.name}</div>
+                        <div class="text-xs text-slate-400 mt-0.5">฿${formatCurrency(item.feb.actual)}</div>
+                    </div>
+                    <div class="text-right flex flex-col items-end">
+                         <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold ${febP >= 100 ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}">
+                            ${febP.toFixed(0)}%
+                        </span>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        document.getElementById('branchSelector').addEventListener('change', function() {
+            currentId = this.value;
+            updateDashboard();
+        });
+
+        // Start
+        window.onload = () => {
+            updateDashboard();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaizen Executive Summary - Feb 2026</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Kanit -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f8fafc;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+        body.modal-active {
+            overflow-x: hidden;
+            overflow-y: visible !important;
+        }
+        /* Custom Scrollbar for Modal */
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .modal-content::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .modal-content::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .list-custom ul {
+            list-style-type: disc;
+            padding-left: 1.25rem;
+        }
+        .list-custom ol {
+            list-style-type: decimal;
+            padding-left: 1.25rem;
+        }
+    </style>
+</head>
+<body class="text-slate-900 antialiased">
+
+    <div class="min-h-screen p-4 md:p-8 lg:p-12 relative">
+        <!-- Header Section -->
+        <div class="max-w-7xl mx-auto mb-10">
+            <div class="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full -mr-16 -mt-16 opacity-50 z-0"></div>
+                
+                <div class="relative z-10">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold uppercase tracking-wider">Feb 2026 Report</span>
+                        <span class="text-slate-400 text-sm">|</span>
+                        <span class="text-slate-500 text-sm font-medium">บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด</span>
+                    </div>
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight mt-2">
+                        Kaizen Executive Dashboard
+                    </h1>
+                    <p class="text-slate-500 text-lg mt-2">สรุปภาพรวมการเสนอแนะหัวข้อไคเซ็นเพื่อการพัฒนาองค์กร</p>
+                </div>
+
+                <div class="relative z-10 flex items-center gap-4">
+                    <div class="text-right hidden md:block">
+                        <p class="text-sm text-slate-400 font-medium">Total Proposals</p>
+                        <p class="text-3xl font-black text-slate-800">3 <span class="text-lg font-normal text-slate-400">หัวข้อ</span></p>
+                    </div>
+                    <div class="bg-blue-600 text-white p-4 rounded-2xl shadow-lg shadow-blue-200">
+                        <i data-lucide="file-bar-chart-2" class="w-8 h-8"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto space-y-8">
+            <!-- Key Metrics Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 card-hover transition-all duration-300">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="bg-blue-50 p-3 rounded-xl">
+                            <i data-lucide="timer" class="w-6 h-6 text-blue-600"></i>
+                        </div>
+                        <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">67%</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800">ลดเวลางาน</h3>
+                    <p class="text-sm text-slate-500 mt-1">มุ่งเน้นความเร็ว (2 หัวข้อ)</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 card-hover transition-all duration-300">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="bg-indigo-50 p-3 rounded-xl">
+                            <i data-lucide="check-square" class="w-6 h-6 text-indigo-600"></i>
+                        </div>
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-1 rounded-lg">Quality</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800">3 โครงการ</h3>
+                    <p class="text-sm text-slate-500 mt-1">เน้นการเพิ่มคุณภาพ</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 card-hover transition-all duration-300">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="bg-purple-50 p-3 rounded-xl">
+                            <i data-lucide="users" class="w-6 h-6 text-purple-600"></i>
+                        </div>
+                        <span class="text-xs font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-lg">Active</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800">3 แผนก</h3>
+                    <p class="text-sm text-slate-500 mt-1">บริหาร, ขายส่ง, บัญชี</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 card-hover transition-all duration-300">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="bg-rose-50 p-3 rounded-xl">
+                            <i data-lucide="trending-up" class="w-6 h-6 text-rose-600"></i>
+                        </div>
+                        <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2 py-1 rounded-lg">Sales</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800">1 หัวข้อ</h3>
+                    <p class="text-sm text-slate-500 mt-1">สนับสนุนการขาย (E-Catalog)</p>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-1 h-6 bg-blue-500 rounded-full"></div>
+                        <h3 class="text-lg font-bold text-slate-800">วัตถุประสงค์ของโครงการ (กุมภาพันธ์)</h3>
+                    </div>
+                    <div class="h-[300px] w-full">
+                        <canvas id="objectiveChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-1 h-6 bg-rose-500 rounded-full"></div>
+                        <h3 class="text-lg font-bold text-slate-800">พื้นที่การปรับปรุง (Location)</h3>
+                    </div>
+                    <div class="h-[300px] w-full flex justify-center">
+                        <canvas id="locationChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Table -->
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden" id="table-section">
+                <div class="p-8 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800">ทำเนียบรายละเอียดโครงการ (กุมภาพันธ์)</h3>
+                        <p class="text-sm text-slate-500 mt-1">คลิกที่ปุ่ม <span class="font-bold text-blue-600">"ดูรายละเอียด"</span> เพื่อดูข้อมูลเชิงลึกของแต่ละหัวข้อ</p>
+                    </div>
+                    <button class="flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-blue-600 transition-colors cursor-pointer bg-slate-50 px-4 py-2 rounded-lg border border-slate-200">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                        Export Data
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50/50 border-y border-slate-100">
+                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider w-[30%]">ผู้เสนอ / ID / วันที่</th>
+                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider w-[30%]">หัวข้อการปรับปรุง</th>
+                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider hidden md:table-cell">ประเภท/สถานที่</th>
+                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">จัดการ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody" class="divide-y divide-slate-100">
+                            <!-- Javascript will inject rows here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="p-4 bg-slate-50 text-center border-t border-slate-100">
+                    <p class="text-xs text-slate-400">Generated by Kaizen Executive Dashboard System</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Overlay -->
+        <div id="kaizenModal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50 p-4">
+            <div class="modal-overlay absolute w-full h-full bg-slate-900 opacity-60 backdrop-blur-sm"></div>
+            
+            <div class="modal-container bg-white w-full md:max-w-2xl mx-auto rounded-2xl shadow-2xl z-50 overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh]">
+                
+                <!-- Modal Content -->
+                <div class="modal-content overflow-y-auto p-6 md:p-8">
+                    <!-- Title -->
+                    <div class="flex justify-between items-start pb-4 border-b border-slate-100 mb-6">
+                        <div>
+                            <span class="inline-block py-1 px-2 rounded bg-slate-100 text-slate-500 text-xs font-mono font-bold mb-2" id="modalId">ID: KZ-XXXX-XX</span>
+                            <h2 class="text-2xl font-bold text-slate-800 leading-snug" id="modalTopic">หัวข้อการปรับปรุง</h2>
+                        </div>
+                        <div class="modal-close cursor-pointer z-50 p-2 bg-slate-100 rounded-full hover:bg-slate-200 transition-colors flex-shrink-0 ml-4" onclick="closeModal()">
+                            <i data-lucide="x" class="w-5 h-5 text-slate-500"></i>
+                        </div>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="space-y-6">
+                        <!-- User Info Section -->
+                        <div class="flex items-center gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <div class="w-14 h-14 rounded-full bg-white flex items-center justify-center border border-slate-200 shadow-sm text-xl font-bold text-blue-600 flex-shrink-0">
+                                <i data-lucide="user" class="w-7 h-7"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <p class="text-lg font-bold text-slate-800" id="modalName">ชื่อ-นามสกุล</p>
+                                <p class="text-sm text-slate-500" id="modalPos">ตำแหน่ง</p>
+                            </div>
+                            <div class="text-right hidden sm:block">
+                                <div class="flex items-center gap-1.5 text-slate-500 text-sm justify-end bg-white px-3 py-1 rounded-full border border-slate-200">
+                                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-rose-500"></i>
+                                    <span id="modalLoc">สถานที่</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Categories -->
+                        <div id="modalBadges" class="flex flex-wrap gap-2"></div>
+
+                        <!-- Details Grid -->
+                        <div class="grid grid-cols-1 gap-4 list-custom">
+                            <div class="bg-rose-50/40 p-5 rounded-xl border border-rose-100/60">
+                                <h4 class="font-bold text-rose-700 mb-3 flex items-center gap-2">
+                                    <i data-lucide="alert-triangle" class="w-5 h-5"></i> สภาพปัญหาปัจจุบัน
+                                </h4>
+                                <div class="text-sm text-slate-700 leading-relaxed space-y-2" id="modalProblem"></div>
+                            </div>
+                            
+                            <div class="bg-blue-50/40 p-5 rounded-xl border border-blue-100/60">
+                                <h4 class="font-bold text-blue-700 mb-3 flex items-center gap-2">
+                                    <i data-lucide="lightbulb" class="w-5 h-5"></i> รายละเอียดการปรับปรุง
+                                </h4>
+                                <div class="text-sm text-slate-700 leading-relaxed space-y-2" id="modalSolution"></div>
+                            </div>
+
+                            <div class="bg-emerald-50/40 p-5 rounded-xl border border-emerald-100/60">
+                                <h4 class="font-bold text-emerald-700 mb-3 flex items-center gap-2">
+                                    <i data-lucide="check-circle-2" class="w-5 h-5"></i> ประโยชน์ที่ได้รับ
+                                </h4>
+                                <div class="text-sm text-slate-700 leading-relaxed space-y-2" id="modalBenefit"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer (Fixed) -->
+                <div class="p-6 bg-slate-50 border-t border-slate-100 flex justify-end gap-3 flex-shrink-0">
+                    <button class="px-5 py-2.5 bg-white text-slate-600 font-medium rounded-xl border border-slate-200 hover:bg-slate-50 transition shadow-sm" onclick="closeModal()">ปิดหน้าต่าง</button>
+                    <button class="px-5 py-2.5 bg-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-200 hover:bg-blue-700 transition flex items-center gap-2" onclick="closeModal()">
+                        <i data-lucide="thumbs-up" class="w-4 h-4"></i> รับทราบ/อนุมัติ
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- 1. ข้อมูล (Data) อัปเดตประจำเดือน กุมภาพันธ์ ---
+        const kaizenData = [
+            { 
+                id: 'KZ-2602-09', 
+                date: '16-Feb-26',
+                name: 'นางสาววิญารัตน์ พิบาลขัน', 
+                pos: 'ผู้จัดการฝ่ายบริหาร', 
+                topic: 'ทำแคตตาล็อกสินค้าในรูปแบบ E-Flipbook เพื่อเพิ่มประสิทธิภาพการขาย', 
+                cats: ['เพิ่มยอดขาย', 'ลดเวลางาน', 'เพิ่มคุณภาพ'], 
+                loc: 'สำนักงาน',
+                problem: '<ul><li>ปัจจุบันบริษัทฯ ใช้เอกสารแคตตาล็อกสินค้าแบบไฟล์ PDF และเอกสารกระดาษในการนำเสนอสินค้า</li><li>ข้อมูลสินค้าไม่อัปเดตไม่ทันต่อการเปลี่ยนแปลงราคา/สินค้าใหม่</li><li>แคตตาล็อกไม่มีรูปแบบมาตรฐานเดียวกันรวมถึงการค้นหาสินค้าในไฟล์ PDF ทำได้ยาก</li><li>ลูกค้าบางรายไม่สะดวกดาวน์โหลดไฟล์ขนาดใหญ่</li></ul>',
+                solution: '<ul><li>จัดทำโครงสร้างเนื้อหา (จัดหมวดหมู่, แสดงข้อมูลสำคัญ เช่น รหัสสินค้า รายละเอียด ขนาด และ เพิ่มหน้าสินค้าใหม่)</li><li>ออกแบบเป็น E-Flipbook ออกแบบหน้าปกและรูปแบบให้เป็นมาตรฐานบริษัท</li><li>การใช้งานในฝ่ายขาย (ส่งผ่าน Line และ ใช้เปิดนำเสนอระหว่างเข้าพบลูกค้า)</li></ul>',
+                benefit: '<ul><li>เพิ่มโอกาสปิดการขายสินค้าใหม่</li><li>ลูกค้าเข้าถึงข้อมูลสินค้าได้ง่ายและรวดเร็ว</li></ul>'
+            },
+            { 
+                id: 'KZ-2602-10', 
+                date: '23-Feb-26',
+                name: 'นางสาวสุวนันท์ คามะเชียงพิน', 
+                pos: 'พนักงานขายส่ง', 
+                topic: 'การปรับปรุงการจัดเก็บท่อ PVC เพื่อเพิ่มความปลอดภัยและลดเวลาการทำงาน', 
+                cats: ['เพิ่มคุณภาพ', 'ลดเวลางาน'], 
+                loc: 'ชั้นวางท่อ PVC โซนคลังสินค้า',
+                problem: '<ul><li>ป้ายระบุขนาดไม่ชัดเจนและปัจจุบันต้องเสียเวลามองหาไซส์</li><li>ท่อหลายขนาดจัดเก็บปะปนกัน ทำให้เสียเวลาค้นหา</li><li>มีท่อบางรายการค้างสต็อกเป็นเวลานาน ไม่มีการเคลื่อนไหว ทำให้การจัดเรียงปะปนกับสินค้าขายดี</li></ul>',
+                solution: '<ul><li>แยกท่อขายดีไว้ระดับสายตา</li><li>หลังปรับปรุงได้คัดแยกท่อค้างสต็อก จัดเรียงใหม่ตามขนาด ติดป้ายชัดเจน</li><li>จัดทำมาตรฐาน 5ส. ทำให้พื้นที่เป็นระเบียบ ลดเวลาค้นหา และเพิ่มความปลอดภัยในการทำงาน</li></ul>',
+                benefit: '<ul><li>เพื่อเพิ่มประสิทธิภาพและความรวดเร็วในการปฏิบัติงาน</li><li>เพื่อยกระดับมาตรฐาน 5ส. ในพื้นที่จัดเก็บสินค้า</li></ul>'
+            },
+            { 
+                id: 'KZ-2602-11', 
+                date: '26-Feb-26',
+                name: 'น.ส.อภิรักษ์ ชั้นงาม', 
+                pos: 'พนักงานบัญชี / การเงิน', 
+                topic: 'ปัญหาการทวงหนี้', 
+                cats: ['เพิ่มคุณภาพ'], 
+                loc: 'สำนักงาน',
+                problem: '<ul><li>บัญชีทวงถามยอดค้างชำระไปก่อนล่วงหน้า 2-3 วัน</li><li>เตรียมข้อมูลและต้องรายละเอียดให้พร้อมเช่น ใบส่งของมีลายเซ็นต์ผู้รับ ผู้ส่ง ผู้อนุมัติ ให้ชัดเจน</li><li>เจ้าของร้านไม่อยู่ร้าน อยากทราบว่าใครเป็นคนรับสินค้า (ลายเซ็นต์ผู้รับของสำคัญ)</li></ul>',
+                solution: '<ul><li>ขอความร่วมมือพนักงานจัดส่งทุกคน ขอลายเซ็นต์ผู้รับสินค้า</li><li>เพื่อติดตามทวงหนี้ได้ง่ายขึ้น</li><li>เป็นหลักฐานสำคัญในการทวงหนี้</li><li>ปัจจุบันยังมี ใบส่งของไม่มีผู้รับสินค้า ผู้ส่งสินค้าไม่มีการเซ็นต์และผู้อนุมัติ</li></ul>',
+                benefit: '<ul><li>เพื่อนำเงินสดหมุนเวียนใช้ในกิจการ</li><li>สร้างความสมดุลระหว่างให้เครดิตลูกค้า</li></ul>'
+            }
+        ];
+
+        // --- 2. สร้างตาราง (Table Generation) ---
+        const tableBody = document.getElementById('tableBody');
+        
+        kaizenData.forEach((item, index) => {
+            const row = document.createElement('tr');
+            row.className = 'hover:bg-blue-50/40 transition-colors group border-b border-slate-50 last:border-b-0';
+            
+            // Badges
+            const badges = item.cats.map(c => {
+                let colorClass = 'bg-slate-100 text-slate-600 border-slate-200';
+                if(c.includes('ลดเวลางาน')) colorClass = 'bg-blue-50 text-blue-600 border-blue-100';
+                if(c.includes('ปลอดภัย')) colorClass = 'bg-emerald-50 text-emerald-600 border-emerald-100';
+                if(c.includes('ยอดขาย')) colorClass = 'bg-rose-50 text-rose-600 border-rose-100';
+                if(c.includes('คุณภาพ')) colorClass = 'bg-indigo-50 text-indigo-600 border-indigo-100';
+                return `<span class="px-2 py-0.5 rounded text-[10px] font-bold border ${colorClass} mr-1 mb-1 inline-block">${c}</span>`;
+            }).join('');
+
+            row.innerHTML = `
+                <td class="px-6 py-5 align-top">
+                    <div class="flex flex-col">
+                        <span class="text-[10px] font-mono font-bold text-slate-400 mb-1 group-hover:text-blue-500 transition-colors">${item.id} <span class="text-slate-300">|</span> ${item.date}</span>
+                        <div class="flex items-center gap-2">
+                             <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-500 flex-shrink-0">
+                                ${item.name.charAt(0)}
+                             </div>
+                             <div>
+                                <span class="text-sm font-bold text-slate-800 block">${item.name}</span>
+                                <span class="text-[11px] text-slate-500 font-medium">${item.pos}</span>
+                             </div>
+                        </div>
+                    </div>
+                </td>
+                <td class="px-6 py-5 align-top">
+                    <p class="text-sm font-semibold text-slate-700 leading-relaxed mb-1">${item.topic}</p>
+                    <p class="text-xs text-slate-400 line-clamp-1">${item.problem.replace(/<[^>]*>?/gm, '')}</p>
+                </td>
+                <td class="px-6 py-5 align-top hidden md:table-cell">
+                    <div class="flex flex-wrap mb-1">${badges}</div>
+                    <div class="flex items-center gap-1 text-slate-400 text-xs">
+                        <i data-lucide="map-pin" class="w-3 h-3"></i> <span class="truncate max-w-[150px] inline-block" title="${item.loc}">${item.loc}</span>
+                    </div>
+                </td>
+                <td class="px-6 py-5 align-middle text-right">
+                    <button onclick="openModal('${item.id}')" class="inline-flex items-center gap-1.5 bg-white hover:bg-blue-50 text-slate-600 hover:text-blue-600 border border-slate-200 hover:border-blue-200 px-3 py-2 rounded-lg transition-all text-xs font-bold shadow-sm group-hover:shadow-md cursor-pointer">
+                        <i data-lucide="search" class="w-3.5 h-3.5"></i>
+                        รายละเอียด
+                    </button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+        // --- 3. Modal Functions ---
+        const modal = document.getElementById('kaizenModal');
+        const modalOverlay = document.querySelector('.modal-overlay');
+        
+        function openModal(id) {
+            const item = kaizenData.find(d => d.id === id);
+            if(!item) return;
+
+            // Populate Data
+            document.getElementById('modalId').innerText = `ID: ${item.id}`;
+            document.getElementById('modalTopic').innerText = item.topic;
+            document.getElementById('modalName').innerText = item.name;
+            document.getElementById('modalPos').innerText = item.pos;
+            document.getElementById('modalLoc').innerText = item.loc;
+            
+            // Use innerHTML to render HTML tags like <ul>, <li>
+            document.getElementById('modalProblem').innerHTML = item.problem;
+            document.getElementById('modalSolution').innerHTML = item.solution;
+            document.getElementById('modalBenefit').innerHTML = item.benefit;
+
+            // Badges in Modal
+            const badgeContainer = document.getElementById('modalBadges');
+            badgeContainer.innerHTML = item.cats.map(c => {
+                 let colorClass = 'bg-slate-100 text-slate-600';
+                if(c.includes('ลดเวลางาน')) colorClass = 'bg-blue-100 text-blue-700';
+                if(c.includes('ปลอดภัย')) colorClass = 'bg-emerald-100 text-emerald-700';
+                if(c.includes('ยอดขาย')) colorClass = 'bg-rose-100 text-rose-700';
+                if(c.includes('คุณภาพ')) colorClass = 'bg-indigo-100 text-indigo-700';
+                return `<span class="px-3 py-1 rounded-full text-xs font-bold ${colorClass}">${c}</span>`;
+            }).join('');
+
+            // Show Modal
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.querySelector('.modal-container').classList.remove('scale-95');
+            document.querySelector('.modal-container').classList.add('scale-100');
+            document.body.classList.add('modal-active');
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            document.querySelector('.modal-container').classList.remove('scale-100');
+            document.querySelector('.modal-container').classList.add('scale-95');
+            document.body.classList.remove('modal-active');
+        }
+
+        // Close on overlay click
+        modalOverlay.addEventListener('click', closeModal);
+
+        // --- 4. กราฟ (Charts) - อัปเดตข้อมูลของเดือนกุมภาพันธ์ ---
+        window.onload = function() {
+            lucide.createIcons();
+            Chart.defaults.font.family = "'Kanit', sans-serif";
+            Chart.defaults.color = '#64748b';
+
+            // วิเคราะห์และนับจำนวน Category
+            const catCounts = { 'เพิ่มคุณภาพ': 0, 'ลดเวลางาน': 0, 'เพิ่มยอดขาย': 0, 'ความปลอดภัย': 0, 'ลดต้นทุน': 0 };
+            kaizenData.forEach(item => {
+                item.cats.forEach(cat => {
+                    if(catCounts[cat] !== undefined) catCounts[cat]++;
+                });
+            });
+
+            new Chart(document.getElementById('objectiveChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['เพิ่มคุณภาพ', 'ลดเวลางาน', 'เพิ่มยอดขาย', 'ความปลอดภัย', 'ลดต้นทุน'],
+                    datasets: [{
+                        label: 'จำนวนหัวข้อ',
+                        data: [catCounts['เพิ่มคุณภาพ'], catCounts['ลดเวลางาน'], catCounts['เพิ่มยอดขาย'], catCounts['ความปลอดภัย'], catCounts['ลดต้นทุน']],
+                        backgroundColor: ['#6366f1', '#3b82f6', '#f43f5e', '#10b981', '#f59e0b'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { stepSize: 1, precision: 0 } },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // วิเคราะห์สถานที่
+            let office = 0, warehouse = 0, store = 0;
+            kaizenData.forEach(item => {
+                if(item.loc.includes('สำนักงาน')) office++;
+                else if(item.loc.includes('คลัง') || item.loc.includes('โกดัง')) warehouse++;
+                else store++;
+            });
+
+            new Chart(document.getElementById('locationChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['สำนักงาน', 'คลังสินค้า/โกดัง', 'หน้าร้าน/ปฏิบัติการ'],
+                    datasets: [{
+                        data: [office, warehouse, store],
+                        backgroundColor: ['#6366f1', '#3b82f6', '#f43f5e'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } } }
+                }
+            });
+        };
+    </script>
+</body>
+</html>

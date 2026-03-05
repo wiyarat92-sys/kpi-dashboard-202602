@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KPI Executive Dashboard</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts สำหรับภาษาไทย -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="min-h-screen p-4 md:p-8">
+        <div class="max-w-6xl mx-auto space-y-6">
+            
+            <!-- Header -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <div>
+                    <h1 class="text-2xl font-bold text-slate-900">KPI Executive Dashboard</h1>
+                    <p class="text-slate-500 mt-1">รายงานผลการดำเนินงานประจำปี (มกราคม - กุมภาพันธ์)</p>
+                </div>
+                <div class="mt-4 md:mt-0 flex space-x-2">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                        ต้องปรับปรุง
+                    </span>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-slate-100 text-slate-800">
+                        อัปเดตล่าสุด: กุมภาพันธ์
+                    </span>
+                </div>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Safety Summary Card -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-6 opacity-5">
+                        <i data-lucide="alert-triangle" style="width: 100px; height: 100px;"></i>
+                    </div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div id="safety-icon-bg" class="p-3 rounded-lg">
+                                <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-semibold text-slate-700">อุบัติเหตุถึงขั้นหยุดงาน</h2>
+                                <p class="text-sm text-slate-500">เป้าหมาย: <span id="safety-target-text">0</span> ครั้ง</p>
+                            </div>
+                        </div>
+                        <div id="safety-status-icon"></div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <div class="flex items-baseline space-x-2">
+                            <span id="safety-total-value" class="text-4xl font-bold">0</span>
+                            <span class="text-lg text-slate-500">ครั้ง</span>
+                        </div>
+                        <p id="safety-status-text" class="text-sm mt-2 font-medium flex items-center"></p>
+                    </div>
+                </div>
+
+                <!-- Attendance Summary Card -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-6 opacity-5">
+                        <i data-lucide="users" style="width: 100px; height: 100px;"></i>
+                    </div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div id="attendance-icon-bg" class="p-3 rounded-lg">
+                                <i data-lucide="users" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-semibold text-slate-700">อัตราการมาทำงาน</h2>
+                                <p class="text-sm text-slate-500">เป้าหมาย: &gt; <span id="attendance-target-text">98</span>%</p>
+                            </div>
+                        </div>
+                        <div id="attendance-status-icon"></div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <div class="flex items-baseline space-x-2">
+                            <span id="attendance-total-value" class="text-4xl font-bold">0%</span>
+                            <span class="text-lg text-slate-500">ผลรวม</span>
+                        </div>
+                        <p id="attendance-status-text" class="text-sm mt-2 font-medium flex items-center"></p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Detailed Charts -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Safety Chart -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-slate-800">สถิติอุบัติเหตุรายเดือน</h3>
+                        <div class="flex items-center text-sm text-slate-500">
+                            <i data-lucide="target" class="w-4 h-4 mr-1 text-green-500"></i>
+                            <span>เป้าหมาย = 0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="h-64 flex items-end space-x-8 px-4 relative">
+                        <!-- Y-axis Labels -->
+                        <div class="absolute left-0 top-0 bottom-8 flex flex-col justify-between text-xs text-slate-400 w-6">
+                            <span>2</span>
+                            <span>1</span>
+                            <span>0</span>
+                        </div>
+                        
+                        <!-- Target Line -->
+                        <div class="absolute left-8 right-0 bottom-8 border-b-2 border-dashed border-green-500 z-0"></div>
+
+                        <!-- Bars Container -->
+                        <div id="safety-chart-bars" class="flex-1 flex justify-around items-end h-[calc(100%-2rem)] z-10 pl-4">
+                            <!-- JS จะวาดกราฟที่นี่ -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Attendance Chart -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-slate-800">สถิติการมาทำงานรายเดือน</h3>
+                        <div class="flex items-center text-sm text-slate-500">
+                            <i data-lucide="target" class="w-4 h-4 mr-1 text-blue-500"></i>
+                            <span>เป้าหมาย &gt; 98%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="h-64 flex items-end space-x-8 px-4 relative">
+                        <!-- Y-axis Labels (Range 95 - 100) -->
+                        <div class="absolute left-0 top-0 bottom-8 flex flex-col justify-between text-xs text-slate-400 w-8">
+                            <span>100%</span>
+                            <span>98%</span>
+                            <span>96%</span>
+                        </div>
+                        
+                        <!-- Target Line (at 98%) -->
+                        <div class="absolute left-10 right-0 bottom-[calc(60%+2rem)] border-b-2 border-dashed border-blue-500 z-0"></div>
+
+                        <!-- Bars Container -->
+                        <div id="attendance-chart-bars" class="flex-1 flex justify-around items-end h-[calc(100%-2rem)] z-10 pl-6">
+                            <!-- JS จะวาดกราฟที่นี่ -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Recommendation / Action items -->
+            <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-xl">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i data-lucide="alert-triangle" class="h-5 w-5 text-red-500"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-red-800">ข้อควรระวังและสิ่งที่ต้องดำเนินการ (Action Required)</h3>
+                        <div class="mt-2 text-sm text-red-700">
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li><strong>ความปลอดภัย:</strong> พบอุบัติเหตุถึงขั้นหยุดงาน 1 ครั้งในเดือนกุมภาพันธ์ (เป้าหมายคือ 0) ควรตรวจสอบหาสาเหตุเชิงลึก (Root Cause Analysis) ทันที</li>
+                                <li><strong>การมาทำงาน:</strong> ผลรวม 97.44% ต่ำกว่าเป้าหมายที่ &gt;98% แม้เดือน ก.พ. (98.21%) จะดีขึ้นและผ่านเกณฑ์แล้ว แต่ภาพรวมยังคงต้องติดตามสาเหตุการขาดงานในเดือน ม.ค. อย่างใกล้ชิด</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        // ข้อมูล
+        const safetyData = [
+            { month: 'ม.ค.', value: 0, target: 0 },
+            { month: 'ก.พ.', value: 1, target: 0 },
+        ];
+        const safetyTarget = 0;
+        const totalAccidents = safetyData.reduce((acc, curr) => acc + curr.value, 0);
+
+        const attendanceData = [
+            { month: 'ม.ค.', value: 97.44, target: 98 },
+            { month: 'ก.พ.', value: 98.21, target: 98 },
+        ];
+        const summaryAttendance = 97.44; 
+        const attendanceTarget = 98;
+
+        function renderDashboard() {
+            // === จัดการส่วน Safety Summary ===
+            const isSafetyPass = totalAccidents <= safetyTarget;
+            
+            document.getElementById('safety-target-text').innerText = safetyTarget;
+            document.getElementById('safety-total-value').innerText = totalAccidents;
+            document.getElementById('safety-total-value').className = `text-4xl font-bold ${isSafetyPass ? 'text-green-600' : 'text-red-600'}`;
+            
+            document.getElementById('safety-icon-bg').className = `p-3 rounded-lg ${isSafetyPass ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`;
+            
+            document.getElementById('safety-status-icon').innerHTML = isSafetyPass 
+                ? '<i data-lucide="check-circle" class="text-green-500 w-7 h-7"></i>' 
+                : '<i data-lucide="x-circle" class="text-red-500 w-7 h-7"></i>';
+
+            document.getElementById('safety-status-text').innerHTML = isSafetyPass
+                ? '<i data-lucide="trending-down" class="w-4 h-4 mr-1"></i> ผ่านเกณฑ์'
+                : '<i data-lucide="trending-up" class="w-4 h-4 mr-1"></i> ไม่ผ่านเกณฑ์ (เกินเป้าหมายที่กำหนด)';
+            document.getElementById('safety-status-text').className = `text-sm mt-2 font-medium flex items-center ${isSafetyPass ? 'text-green-600' : 'text-red-600'}`;
+
+            // === จัดการส่วน Attendance Summary ===
+            const isAttendancePass = summaryAttendance > attendanceTarget;
+            
+            document.getElementById('attendance-target-text').innerText = attendanceTarget;
+            document.getElementById('attendance-total-value').innerText = summaryAttendance + '%';
+            document.getElementById('attendance-total-value').className = `text-4xl font-bold ${isAttendancePass ? 'text-green-600' : 'text-red-600'}`;
+            
+            document.getElementById('attendance-icon-bg').className = `p-3 rounded-lg ${isAttendancePass ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`;
+            
+            document.getElementById('attendance-status-icon').innerHTML = isAttendancePass 
+                ? '<i data-lucide="check-circle" class="text-green-500 w-7 h-7"></i>' 
+                : '<i data-lucide="x-circle" class="text-red-500 w-7 h-7"></i>';
+
+            document.getElementById('attendance-status-text').innerHTML = isAttendancePass
+                ? '<i data-lucide="trending-up" class="w-4 h-4 mr-1"></i> ผ่านเกณฑ์'
+                : `<i data-lucide="trending-down" class="w-4 h-4 mr-1"></i> ไม่ผ่านเกณฑ์ (ต่ำกว่าเป้าหมาย ${attendanceTarget}%)`;
+            document.getElementById('attendance-status-text').className = `text-sm mt-2 font-medium flex items-center ${isAttendancePass ? 'text-green-600' : 'text-red-600'}`;
+
+            // === วาดกราฟ Safety ===
+            const safetyChartBars = document.getElementById('safety-chart-bars');
+            let safetyHTML = '';
+            safetyData.forEach(data => {
+                const heightPercentage = (data.value / 2) * 100; // max Y is 2
+                const isPass = data.value <= data.target;
+                const barClass = isPass ? 'bg-green-500' : 'bg-red-500';
+                const badgeClass = isPass ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700';
+                const finalHeight = heightPercentage === 0 ? 2 : heightPercentage; // min height
+                
+                safetyHTML += `
+                    <div class="flex flex-col items-center w-full group">
+                        <div class="mb-2 text-sm font-bold text-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                            ${data.value} ครั้ง
+                        </div>
+                        <div class="w-16 md:w-20 rounded-t-md transition-all duration-500 ease-out ${barClass}" style="height: ${finalHeight}%"></div>
+                        <div class="mt-4 text-sm font-medium text-slate-600">${data.month}</div>
+                        <div class="mt-1 text-xs font-semibold px-2 py-0.5 rounded ${badgeClass}">${data.value}</div>
+                    </div>
+                `;
+            });
+            safetyChartBars.innerHTML = safetyHTML;
+
+            // === วาดกราฟ Attendance ===
+            const attendanceChartBars = document.getElementById('attendance-chart-bars');
+            let attendanceHTML = '';
+            attendanceData.forEach(data => {
+                // Calculate height based on 95-100 range. 98 is 60%.
+                const heightPercentage = Math.max(5, ((data.value - 95) / 5) * 100);
+                const isPass = data.value > data.target;
+                const barClass = isPass ? 'bg-green-500' : 'bg-red-400';
+                const badgeClass = isPass ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700';
+
+                attendanceHTML += `
+                    <div class="flex flex-col items-center w-full group">
+                        <div class="mb-2 text-sm font-bold text-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                            ${data.value}%
+                        </div>
+                        <div class="w-16 md:w-20 rounded-t-md transition-all duration-500 ease-out ${barClass}" style="height: ${heightPercentage}%"></div>
+                        <div class="mt-4 text-sm font-medium text-slate-600">${data.month}</div>
+                        <div class="mt-1 text-xs font-semibold px-2 py-0.5 rounded ${badgeClass}">${data.value}%</div>
+                    </div>
+                `;
+            });
+            attendanceChartBars.innerHTML = attendanceHTML;
+
+            // Initialize Lucide Icons after DOM is generated
+            lucide.createIcons();
+        }
+
+        // Run when window loads
+        window.onload = renderDashboard;
+    </script>
+</body>
+</html>
