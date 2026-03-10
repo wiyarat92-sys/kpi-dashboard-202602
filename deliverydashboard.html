@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Dashboard - ข้อผิดพลาดจากการจัดส่ง</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #040b16; /* Deep Dark Blue Base */
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(249, 115, 22, 0.12), transparent 30%),
+                radial-gradient(circle at 85% 30%, rgba(14, 165, 233, 0.08), transparent 30%);
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+        
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.4); /* Dark Blue transparent */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            border-radius: 1rem;
+        }
+
+        .glass-table-header {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(8px);
+        }
+
+        /* Glowing Effects */
+        .text-glow-orange {
+            color: #f97316;
+            text-shadow: 0 0 20px rgba(249, 115, 22, 0.7);
+        }
+        .text-glow-blue {
+            color: #38bdf8;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
+        }
+        .text-glow-green {
+            color: #34d399;
+            text-shadow: 0 0 20px rgba(52, 211, 153, 0.6);
+        }
+        .box-glow-orange {
+            box-shadow: 0 0 25px rgba(249, 115, 22, 0.15);
+            border-left: 4px solid #f97316;
+        }
+        .box-glow-blue {
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.1);
+            border-left: 4px solid #38bdf8;
+        }
+        .box-glow-green {
+            box-shadow: 0 0 25px rgba(52, 211, 153, 0.1);
+            border-left: 4px solid #34d399;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(249, 115, 22, 0.3);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(249, 115, 22, 0.6);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto space-y-8">
+        
+        <!-- Header -->
+        <div class="glass-panel p-6 flex flex-col md:flex-row justify-between items-start md:items-center relative overflow-hidden">
+            <div class="absolute -right-10 -top-10 w-40 h-40 bg-orange-500 rounded-full mix-blend-screen filter blur-[80px] opacity-20"></div>
+            <div class="relative z-10">
+                <h1 class="text-3xl font-bold text-white tracking-wide">รายงานข้อผิดพลาดจากการจัดส่ง</h1>
+                <p class="text-orange-400 mt-2 font-medium tracking-wider">ประจำเดือน กุมภาพันธ์ 2026</p>
+            </div>
+            <div class="mt-4 md:mt-0 px-5 py-2.5 bg-slate-800/80 text-slate-200 rounded-lg font-semibold border border-slate-700/50 relative z-10 flex items-center shadow-lg">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 mr-2 shadow-[0_0_8px_#34d399]"></span>
+                เป้าหมาย: <span class="text-white ml-1">&lt; 1.50%</span>
+            </div>
+        </div>
+
+        <!-- Executive KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Card 1: Errors (Highlight - Orange) -->
+            <div class="glass-panel box-glow-orange p-6 relative overflow-hidden group hover:bg-slate-800/60 transition duration-300">
+                <p class="text-sm font-medium text-slate-400">จำนวนข้อผิดพลาด</p>
+                <div class="flex items-baseline mt-3">
+                    <p class="text-5xl font-bold text-glow-orange">13 <span class="text-xl font-normal text-slate-500 ml-1">ครั้ง</span></p>
+                </div>
+                <div class="mt-4 text-sm text-orange-400 flex items-center bg-orange-500/10 px-3 py-1.5 rounded-md inline-block">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    <span>เพิ่มขึ้นจาก ม.ค. (9 ครั้ง)</span>
+                </div>
+            </div>
+
+            <!-- Card 2: Total Orders (Secondary - Blue) -->
+            <div class="glass-panel box-glow-blue p-6 transition duration-300 hover:bg-slate-800/60">
+                <p class="text-sm font-medium text-slate-400">ออเดอร์จัดส่งทั้งหมด</p>
+                <div class="flex items-baseline mt-3">
+                    <p class="text-4xl font-bold text-glow-blue">562 <span class="text-lg font-normal text-slate-500 ml-1">ครั้ง</span></p>
+                </div>
+                <div class="mt-4 text-sm text-sky-400 flex items-center bg-sky-500/10 px-3 py-1.5 rounded-md inline-block">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
+                    <span>ลดลงจาก ม.ค. (665 ครั้ง)</span>
+                </div>
+            </div>
+
+            <!-- Card 3: Actual Rate (Positive - Green) -->
+            <div class="glass-panel box-glow-green p-6 transition duration-300 hover:bg-slate-800/60">
+                <p class="text-sm font-medium text-slate-400">อัตราผิดพลาด (ก.พ.)</p>
+                <div class="flex items-baseline mt-3">
+                    <p class="text-4xl font-bold text-glow-green">0.89<span class="text-2xl">%</span></p>
+                </div>
+                <div class="mt-4 text-sm text-emerald-400 flex items-center bg-emerald-500/10 px-3 py-1.5 rounded-md inline-block">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
+                    <span>ดีขึ้นจาก ม.ค. (1.35%)</span>
+                </div>
+            </div>
+
+            <!-- Card 4: Target Status -->
+            <div class="glass-panel border-l-4 border-slate-700 p-6 flex flex-col justify-center items-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent"></div>
+                <div class="w-16 h-16 rounded-full border border-emerald-500/30 bg-emerald-500/10 flex items-center justify-center mb-3 shadow-[0_0_15px_rgba(52,211,153,0.2)]">
+                    <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <p class="text-xl font-bold text-slate-200">ผ่านเกณฑ์</p>
+                <p class="text-sm text-slate-500 mt-1 uppercase tracking-wider">Target Achieved</p>
+            </div>
+        </div>
+
+        <!-- Charts and Grouped Data Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Chart: Errors by Person -->
+            <div class="glass-panel p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-lg font-bold text-slate-200">สัดส่วนผู้รับผิดชอบ</h2>
+                    <div class="w-8 h-1 rounded bg-orange-500 shadow-[0_0_8px_#f97316]"></div>
+                </div>
+                <div class="relative h-64 w-full">
+                    <canvas id="responsibleChart"></canvas>
+                </div>
+            </div>
+
+            <!-- List: Problems by Person -->
+            <div class="glass-panel p-6 lg:col-span-2">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-lg font-bold text-slate-200">รายการปัญหาแยกตามบุคคล</h2>
+                    <div class="w-8 h-1 rounded bg-sky-500 shadow-[0_0_8px_#38bdf8]"></div>
+                </div>
+                <div id="problemsList" class="space-y-4 max-h-[300px] overflow-y-auto pr-2">
+                    <!-- Data will be injected here via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Full Data Table -->
+        <div class="glass-panel overflow-hidden">
+            <div class="p-6 border-b border-white/5 flex items-center justify-between">
+                <h2 class="text-lg font-bold text-slate-200">รายละเอียดข้อผิดพลาดทั้งหมด (13 รายการ)</h2>
+                <span class="px-3 py-1 bg-white/5 text-slate-300 text-xs rounded-full border border-white/10">Data Log</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-slate-300">
+                    <thead class="text-xs uppercase glass-table-header text-slate-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-4 font-semibold tracking-wider">วันที่</th>
+                            <th scope="col" class="px-6 py-4 font-semibold tracking-wider">รถขนส่ง</th>
+                            <th scope="col" class="px-6 py-4 w-48 font-semibold tracking-wider">ลูกค้า</th>
+                            <th scope="col" class="px-6 py-4 font-semibold tracking-wider">รายละเอียดปัญหา</th>
+                            <th scope="col" class="px-6 py-4 font-semibold tracking-wider">หมวดหมู่ปัญหา</th>
+                            <th scope="col" class="px-6 py-4 font-semibold tracking-wider">ผู้รับผิดชอบ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTableBody" class="divide-y divide-white/5">
+                        <!-- Table rows injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // กำหนดสีหลักของธีม Chart.js สำหรับ Dark Mode
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = "'Sarabun', sans-serif";
+
+        // ข้อมูลหมวดหมู่ปัญหา
+        const categoryMap = {
+            '1': 'การสื่อสารตอบรับออเดอร์ผิดพลาด',
+            '2': 'สินค้าชำรุดจากการขนส่ง',
+            '3': 'ขึ้นท่อเกิน',
+            '4': 'สินค้าไม่ได้คุณภาพ',
+            '5': 'สินค้าชำรุดจากลูกค้า',
+            '6': 'ลูกค้าปิดร้าน',
+            '7': 'บรรจุภัณฑ์ชำรุด',
+            '8': 'ส่งสินค้าไม่ทันลูกค้าปิดร้าน',
+            '9': 'การจัดเก็บสินค้าเศษ',
+            '10': 'จัดสินค้าไม่ครบ/จัดไม่ตรง',
+            '11': 'อื่น ๆ'
+        };
+
+        // ข้อมูลดิบจากรูปภาพ
+        const rawData = [
+            { date: '3-Feb-2026', truck: 'ออมสิน', customer: 'ช.คอนกรีต', problem: 'คืน บอลวาล์ว 3" THAIFENG = 5ตัว เนื่องจากช่างแจ้งขนาดผิด', category: '11', responsible: 'พล' },
+            { date: '5-Feb-2026', truck: 'พี่หมาน', customer: 'พรเจริญวัสดุ', problem: 'คืนท่อ 5"x5 เพชร=1เส้น ท่อ6"x5 เพชร =2 เส้น ท่อตกรถแตกระหว่างทางจัดส่ง', category: '2', responsible: 'บัติ-เจ' },
+            { date: '9-Feb-2026', truck: 'นำโชค', customer: 'พ.รสริน', problem: 'คืน ท่อเหลือง 1/2" ห้าดาว=100เส้น เนื่องจากลูกค้าไม่ได้สั่ง', category: '1', responsible: 'พล' },
+            { date: '10-Feb-2026', truck: 'พี่หมาน', customer: 'แตงโมผ้าม่าน', problem: 'คืนท่อ 1 1/2"x5 เพชร =50เส้น ท่อ 2" x5 เพชร =30 เส้น เนื่องจากทำใบเสนอให้ผิด ต้องการชั้น8.5', category: '1', responsible: 'แอน' },
+            { date: '12-Feb-2026', truck: 'ออมสิน', customer: 'สมบูรณ์ทรัพย์พาณิชย์', problem: 'คืน เกลียวใน 1" 2ลัง (360) เนื่องจากสั่งผิด เปลี่ยนเป็นของท่อน้ำไทย', category: '11', responsible: 'ตั๊กกี้' },
+            { date: '12-Feb-2026', truck: 'พี่หมาน', customer: 'คนเห็น', problem: 'คืนท่อ 6"x8.5 เพชร 3 เส้น งอบาง45-6" 2 ตัว เนื่องจากสั่งผิด สั่งไปเกิน', category: '11', responsible: 'ตั๊กกี้' },
+            { date: '12-Feb-2026', truck: 'พี่หมาน', customer: 'ส.ใจเย็น', problem: 'คืน แคลมป์รัด 5มิล เนื่องจากลูกค้าต้องการรุ่นที่ถูกกว่านี้', category: '11', responsible: 'ตั๊กกี้' },
+            { date: '13-Feb-2026', truck: 'ออมสิน', customer: 'อุดรไทยพิพัฒน์', problem: 'คืน ลวดหนาม 10กก. =15 ม้วน เนื่องจากลูกค้าอยากได้รุ่นที่ ลวดหนากว่านี้', category: '11', responsible: 'ตั๊กกี้' },
+            { date: '13-Feb-2026', truck: 'บุญหนัก', customer: 'นิคม', problem: 'ไม่ได้รับสินค้า ไม้ฝา- ไม้ระแนง 4 รายการ เนื่องจากสินค้าแตกชำรุดระหว่างจัดส่ง', category: '2', responsible: 'โจ-ปอนด์-เจ' },
+            { date: '18-Feb-2026', truck: 'ทำเงิน', customer: 'เป็งเพื่อนการเกษตร', problem: 'คืน ต่อตรงลด 2"x1/2" =1ลัง(60) เนื่องจากเปลี่ยนเป็น ต่อตรง 2 1/2"', category: '11', responsible: 'ตั๊กกี้' },
+            { date: '23-Feb-2026', truck: 'ทำเงิน', customer: 'เทวีโฮม', problem: 'คืน สามทาง 1/2" =1ลัง (220) สั่งเกินจำนวน', category: '11', responsible: 'แอน' },
+            { date: '25-Feb-2026', truck: 'พี่หมาน', customer: 'โชคชัยรุ่งเรืองกิจ', problem: 'คืน สามทาง3/4" ท่อน้ำไทย =36 ตัว เนื่องจากจัดของผิด ลูกค้าสั่งเป็นข้องอ 3/4" ท่อน้ำไทย', category: '10', responsible: 'หนุ่ย-โจ-แอน' },
+            { date: '26-Feb-2026', truck: 'นำโชค', customer: 'เป็งเพื่อนการเกษตร', problem: 'เครมท่อ 6"x5 เพชร 2เส้น เนื่องจากแตกชำรุดจากลูกค้า', category: '5', responsible: 'ตั๊กกี้' }
+        ];
+
+        // 1. นำข้อมูลใส่ลงในตาราง (Table)
+        const tbody = document.getElementById('dataTableBody');
+        rawData.forEach((item) => {
+            const tr = document.createElement('tr');
+            tr.className = 'hover:bg-white/5 transition-colors duration-200';
+            tr.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap text-slate-400">${item.date}</td>
+                <td class="px-6 py-4">${item.truck}</td>
+                <td class="px-6 py-4 font-medium text-slate-200">${item.customer}</td>
+                <td class="px-6 py-4 text-orange-400">${item.problem}</td>
+                <td class="px-6 py-4 text-xs">
+                    <span class="inline-block px-2 py-1 bg-slate-800 border border-slate-700 rounded text-slate-300">
+                        ${item.category}. ${categoryMap[item.category] || 'ไม่ระบุ'}
+                    </span>
+                </td>
+                <td class="px-6 py-4 font-bold text-sky-400">${item.responsible}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        // 2. จัดกลุ่มข้อมูลตามผู้รับผิดชอบ
+        const groupedData = {};
+        rawData.forEach(item => {
+            if (!groupedData[item.responsible]) {
+                groupedData[item.responsible] = [];
+            }
+            groupedData[item.responsible].push(item);
+        });
+
+        // เรียงลำดับคนที่มีข้อผิดพลาดเยอะสุดขึ้นก่อน
+        const sortedResponsible = Object.keys(groupedData).sort((a, b) => groupedData[b].length - groupedData[a].length);
+
+        // 3. สร้าง UI แสดงปัญหาแยกตามบุคคล
+        const problemsList = document.getElementById('problemsList');
+        sortedResponsible.forEach(person => {
+            const items = groupedData[person];
+            
+            const personDiv = document.createElement('div');
+            personDiv.className = 'bg-slate-800/40 rounded-xl p-5 border border-white/5 hover:border-white/10 transition duration-300';
+            
+            let itemsHtml = items.map(i => `
+                <li class="flex items-start mt-3 pb-3 border-b border-white/5 last:border-0 last:pb-0">
+                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-orange-500 mt-2 mr-3 shadow-[0_0_5px_#f97316] flex-shrink-0"></span>
+                    <div>
+                        <p class="text-sm text-slate-300 leading-relaxed">${i.problem}</p>
+                        <p class="text-xs text-slate-500 mt-1.5 font-medium">
+                            ${i.date} <span class="mx-1 text-slate-700">|</span> ลูกค้า: <span class="text-slate-400">${i.customer}</span> <span class="mx-1 text-slate-700">|</span> หมวด: ${categoryMap[i.category] || i.category}
+                        </p>
+                    </div>
+                </li>
+            `).join('');
+
+            personDiv.innerHTML = `
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="font-bold text-sky-400 text-lg flex items-center">
+                        <svg class="w-5 h-5 mr-2 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        ${person}
+                    </h3>
+                    <span class="bg-orange-500/20 text-orange-400 border border-orange-500/30 text-xs font-bold px-3 py-1 rounded-full shadow-[0_0_10px_rgba(249,115,22,0.1)]">
+                        ${items.length} รายการ
+                    </span>
+                </div>
+                <ul class="ml-2">
+                    ${itemsHtml}
+                </ul>
+            `;
+            problemsList.appendChild(personDiv);
+        });
+
+        // 4. สร้างกราฟ Chart.js (Neon Colors)
+        const chartLabels = sortedResponsible;
+        const chartData = sortedResponsible.map(person => groupedData[person].length);
+        
+        // ชุดสีเรืองแสงสำหรับกราฟ
+        const bgColors = [
+            'rgba(249, 115, 22, 0.85)', // Neon Orange
+            'rgba(56, 189, 248, 0.85)', // Neon Cyan
+            'rgba(167, 139, 250, 0.85)', // Neon Purple
+            'rgba(52, 211, 153, 0.85)', // Neon Emerald
+            'rgba(250, 204, 21, 0.85)', // Neon Yellow
+            'rgba(244, 63, 94, 0.85)',  // Neon Rose
+            'rgba(148, 163, 184, 0.85)' // Slate
+        ];
+
+        const ctx = document.getElementById('responsibleChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    label: 'จำนวนข้อผิดพลาด',
+                    data: chartData,
+                    backgroundColor: bgColors,
+                    borderColor: '#0f172a', // สีขอบให้กลืนไปกับพื้นหลังกระจก
+                    borderWidth: 2,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%', // ทำให้โดนัทวงบางลงดูทันสมัย
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true,
+                            pointStyle: 'circle'
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                        titleColor: '#fff',
+                        bodyColor: '#cbd5e1',
+                        borderColor: 'rgba(255,255,255,0.1)',
+                        borderWidth: 1,
+                        padding: 12,
+                        boxPadding: 6
+                    }
+                }
+            }
+        });
+    </script>
+<a href="financialdashoard.html" style="position: fixed; bottom: 20px; right: 20px; background-color: #0d6efd; color: white; padding: 10px 20px; text-decoration: none; border-radius: 30px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); z-index: 9999;">
+    หน้าถัดไป (Financial) ➜
+</body>
+</html>
